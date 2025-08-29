@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedStudy - MBBS Study Resources</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #2a5c8f;
+            --secondary: #4caf50;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --text: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), #1a3a63);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-login {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-login:hover {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .btn-register {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-register:hover {
+            background: #3d8b40;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1582719471384-894fbb16e074?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .search-bar button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        /* Years Section */
+        .years {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .year-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .year-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .year-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .year-card-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .year-card-body {
+            padding: 1.5rem;
+        }
+        
+        .subject-list {
+            list-style: none;
+        }
+        
+        .subject-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .subject-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .file-count {
+            background: #eee;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+        
+        /* Upload Section */
+        .upload-section {
+            background: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .upload-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .upload-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 1.5rem;
+        }
+        
+        .upload-option {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            width: 150px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .upload-option i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #555;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .upload-options {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-book-medical"></i>
+                <h1>MedStudy</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Subjects</a></li>
+                    <li><a href="#">Notes</a></li>
+                    <li><a href="#">PYQ Papers</a></li>
+                    <li><a href="#">Upload</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-login">Login</button>
+                <button class="btn btn-register">Register</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>MBBS Study Resources All in One Place</h2>
+            <p>Access notes, previous year question papers, and study materials for all years of MBBS</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for subjects, notes, or papers...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Years Section -->
+    <section class="years">
+        <div class="container">
+            <h2 class="section-title">Study Materials by Year</h2>
+            <div class="year-cards">
+                <!-- First Year -->
+                <div class="year-card">
+                    <div class="year-card-header">First Year</div>
+                    <div class="year-card-body">
+                        <ul class="subject-list">
+                            <li>Anatomy <span class="file-count">128</span></li>
+                            <li>Physiology <span class="file-count">95</span></li>
+                            <li>Biochemistry <span class="file-count">87</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Second Year -->
+                <div class="year-card">
+                    <div class="year-card-header">Second Year</div>
+                    <div class="year-card-body">
+                        <ul class="subject-list">
+                            <li>Pharmacology <span class="file-count">112</span></li>
+                            <li>Pathology <span class="file-count">104</span></li>
+                            <li>Microbiology <span class="file-count">98</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Third Year -->
+                <div class="year-card">
+                    <div class="year-card-header">Third Year</div>
+                    <div class="year-card-body">
+                        <ul class="subject-list">
+                            <li>PSM <span class="file-count">78</span></li>
+                            <li>FMT <span class="file-count">65</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Fourth Year -->
+                <div class="year-card">
+                    <div class="year-card-header">Fourth Year</div>
+                    <div class="year-card-body">
+                        <ul class="subject-list">
+                            <li>Medicine <span class="file-count">135</span></li>
+                            <li>Surgery <span class="file-count">121</span></li>
+                            <li>Gynecology <span class="file-count">98</span></li>
+                            <li>Pediatrics <span class="file-count">87</span></li>
+                            <li>Ophthalmology <span class="file-count">64</span></li>
+                            <li>ENT <span class="file-count">59</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section class="upload-section">
+        <div class="container">
+            <h2 class="section-title">Contribute Study Materials</h2>
+            <div class="upload-container">
+                <p>Help fellow medical students by uploading notes, question papers, and other study materials</p>
+                <p>Max file size: 500MB per document</p>
+                
+                <div class="upload-options">
+                    <div class="upload-option">
+                        <i class="fas fa-file-pdf"></i>
+                        <p>Notes</p>
+                    </div>
+                    <div class="upload-option">
+                        <i class="fas fa-file-alt"></i>
+                        <p>PYQ Papers</p>
+                    </div>
+                    <div class="upload-option">
+                        <i class="fas fa-file-medical"></i>
+                        <p>Other Materials</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About MedStudy</h3>
+                    <p>A platform created by medical students for medical students to share study resources and make the MBBS journey easier.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">First Year Materials</a></li>
+                        <li><a href="#">Second Year Materials</a></li>
+                        <li><a href="#">Third Year Materials</a></li>
+                        <li><a href="#">Final Year Materials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> contact@medstudy.com</li>
+                        <li><i class="fas fa-phone"></i> +91 9876543210</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Medical College Campus, India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 MedStudy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JavaScript for interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Year card click event
+            const yearCards = document.querySelectorAll('.year-card');
+            yearCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const year = this.querySelector('.year-card-header').textContent;
+                    alert(`You selected ${year}. This would open the detailed view in a real application.`);
+                });
+            });
+            
+            // Upload option click event
+            const uploadOptions = document.querySelectorAll('.upload-option');
+            uploadOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const type = this.querySelector('p').textContent;
+                    alert(`This would open the ${type} upload dialog in a real application.`);
+                });
+            });
+            
+            // Register button click
+            document.querySelector('.btn-register').addEventListener('click', function() {
+                alert('Registration dialog would appear here in a real application.');
+            });
+            
+            // Login button click
+            document.querySelector('.btn-login').addEventListener('click', function() {
+                alert('Login dialog would appear here in a real application.');
+            });
+        });
+    </script>
+</body>
+</html>
