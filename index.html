@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MedStudy – Notes & PYQ</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
+  :root{
+    --primary:#2a5c8f;--secondary:#4caf50;--accent:#ff6b6b;
+    --bg:#f6f8fb;--card:#fff;--text:#222;--muted:#777;
+    --shadow:0 8px 24px rgba(0,0,0,.08);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+  header{position:sticky;top:0;z-index:50;background:linear-gradient(120deg,var(--primary),#1c3961);color:#fff;box-shadow:var(--shadow)}
+  .wrap{max-width:1100px;margin:auto;padding:0 16px}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .brand{display:flex;gap:10px;align-items:center}
+  .brand i{font-size:28px}
+  .brand b{font-size:20px;letter-spacing:.3px}
+  /* hero */
+  .hero{padding:24px 0 8px}
+  .hero h1{margin:.2rem 0 .4rem;font-size:28px}
+  .hero p{margin:0;color:#e6eefb}
+  /* tabs */
+  .tabs{margin:20px auto 0;background:var(--card);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+  .tab-bar{display:flex;gap:10px;flex-wrap:wrap}
+  .tab-btn{flex:1 1 160px;background:#eef4fb;border-radius:10px;padding:10px 14px;border:0;font-weight:700;color:#16406e;cursor:pointer}
+  .tab-btn.active{background:var(--primary);color:#fff}
+  .top-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:12px}
+  .search{flex:1 1 260px;display:flex;border:1px solid #dde6f2;background:#f2f6fb;border-radius:10px;overflow:hidden}
+  .search input{flex:1;padding:10px 12px;border:0;background:transparent}
+  .search button{border:0;background:var(--secondary);color:#fff;padding:0 14px;cursor:pointer}
+  .year-row{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{border:1px solid #d9e4f2;background:#fff;padding:8px 12px;border-radius:999px;cursor:pointer}
+  .pill.active{background:#1f4f83;color:#fff;border-color:#1f4f83}
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}
+  .card{background:var(--card);border-radius:12px;box-shadow:var(--shadow);padding:14px;display:flex;flex-direction:column;gap:10px}
+  .card h3{margin:0;font-size:16px}
+  .sub-list{display:flex;flex-direction:column;gap:8px}
+  .sub{display:flex;align-items:center;gap:10px;justify-content:space-between;border:1px dashed #e6ecf4;border-radius:10px;padding:10px}
+  .sub .left{display:flex;align-items:center;gap:10px}
+  .tag{font-size:12px;background:#eef4fb;color:#16406e;border-radius:999px;padding:4px 8px}
+  .acts{display:flex;gap:6px}
+  .icon-btn{border:0;padding:8px 10px;border-radius:8px;cursor:pointer;background:#f2f6fb}
+  .icon-btn.view{background:#eaf2ff;color:#184a85}
+  .muted{color:var(--muted);font-size:12px}
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:16px;z-index:200}
+  .modal.show{display:flex}
+  .dialog{background:#fff;max-width:480px;width:100%;border-radius:12px;padding:18px;box-shadow:var(--shadow)}
+  .dialog h3{margin:0 0 10px}
+  .dialog .close{float:right;cursor:pointer;color:#999}
+  /* footer */
+  footer{color:#fff;background:#0f1c2c;margin-top:26px}
+  footer .wrap{padding:16px}
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand"><i class="fa-solid fa-book-medical"></i><b>MedStudy</b></div>
+    </div>
+    <div class="wrap hero">
+      <h1>Notes & Previous Year Question Papers</h1>
+      <p>Browse by year, filter by subject, and preview resources.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Tabs -->
+    <section class="tabs" id="app">
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="notes"><i class="fa-solid fa-note-sticky"></i> Notes</button>
+        <button class="tab-btn" data-tab="pyq"><i class="fa-solid fa-file-lines"></i> PYQ</button>
+      </div>
+
+      <div class="top-row">
+        <div class="search">
+          <input id="searchBox" placeholder="Search subjects…" />
+          <button id="clearSearch" title="Clear"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="year-row" id="yearRow">
+          <span class="pill active" data-year="1">1st Year</span>
+          <span class="pill" data-year="2">2nd Year</span>
+          <span class="pill" data-year="3">3rd Year</span>
+          <span class="pill" data-year="4">4th Year</span>
+        </div>
+      </div>
+
+      <div class="grid" id="cardsGrid"></div>
+      <div style="margin-top:8px">
+        <div class="muted">Showing <span id="count">0</span> subjects</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="dialog">
+      <span class="close" id="modalClose"><i class="fa-solid fa-xmark"></i></span>
+      <h3 id="modalTitle">Title</h3>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <small>&copy; <span id="yr"></span> MedStudy. Built for medicos ❤️</small>
+    </div>
+  </footer>
+
+<script>
+/* ======= DATA ======= */
+const DATA = {
+  notes: {
+    1: [{ id:"anat", display:"Anatomy"}, { id:"biochem", display:"Biochemistry"}, { id:"physio", display:"Physiology"}],
+    2: [{ id:"pharma", display:"Pharmacology"}, { id:"micro", display:"Microbiology"}, { id:"patho", display:"Pathology"}],
+    3: [{ id:"psm", display:"PSM"}, { id:"fmt", display:"FMT"}],
+    4: [{ id:"peds", display:"Pediatrics"}, { id:"medicine", display:"Medicine"}, { id:"surgery", display:"Surgery"}, { id:"obg", display:"Obs & Gynae"}, { id:"ent", display:"ENT"}, { id:"oph", display:"Ophthalmology"}],
+  },
+  pyq: {
+    1: [{ id:"anat_pyq", display:"Anatomy"}, { id:"biochem_pyq", display:"Biochemistry"}, { id:"physio_pyq", display:"Physiology"}],
+    2: [{ id:"pharma_pyq", display:"Pharmacology"}, { id:"micro_pyq", display:"Microbiology"}, { id:"patho_pyq", display:"Pathology"}],
+    3: [{ id:"psm_pyq", display:"PSM"}, { id:"fmt_pyq", display:"FMT"}],
+    4: [{ id:"peds_pyq", display:"Pediatrics"}, { id:"medicine_pyq", display:"Medicine"}, { id:"surgery_pyq", display:"Surgery"}, { id:"obg_pyq", display:"Obs & Gynae"}, { id:"ent_pyq", display:"ENT"}, { id:"oph_pyq", display:"Ophthalmology"}],
+  }
+};
+
+const state = { tab: "notes", year: "1", search: "" };
+
+/* ======= RENDER ======= */
+const grid = document.getElementById("cardsGrid");
+const countEl = document.getElementById("count");
+
+function getSubjects(){
+  const list = DATA[state.tab][state.year] || [];
+  const term = state.search.trim().toLowerCase();
+  return list.filter(s => s.display.toLowerCase().includes(term));
+}
+
+function render(){
+  const list = getSubjects();
+  grid.innerHTML = "";
+
+  const card = document.createElement("div");
+  card.className = "card";
+  const yearNames = {1:"1st Year",2:"2nd Year",3:"3rd Year",4:"4th Year"};
+  card.innerHTML = `<h3><i class="fa-solid fa-graduation-cap"></i> ${yearNames[state.year]} – ${state.tab==="notes"?"Notes":"PYQ"}</h3>
+                    <div class="sub-list"></div>`;
+  const subList = card.querySelector(".sub-list");
+
+  list.forEach(sub=>{
+    const row = document.createElement("div");
+    row.className = "sub";
+    row.dataset.id = sub.id;
+    row.innerHTML = `
+      <div class="left"><span class="tag">Y${state.year}</span><strong>${sub.display}</strong></div>
+      <div class="acts">
+        <button class="icon-btn view" title="Preview" data-act="view"><i class="fa-regular fa-eye"></i></button>
+      </div>
+    `;
+    subList.appendChild(row);
+  });
+
+  if(list.length === 0){
+    subList.innerHTML = `<p class="muted">No subjects found ❗</p>`;
+  }
+
+  grid.appendChild(card);
+  countEl.textContent = list.length;
+}
+
+/* ======= INTERACTION ======= */
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    state.tab = btn.dataset.tab;
+    render();
+  });
+});
+
+document.querySelectorAll(".pill").forEach(p=>{
+  p.addEventListener("click", ()=>{
+    document.querySelectorAll(".pill").forEach(x=>x.classList.remove("active"));
+    p.classList.add("active");
+    state.year = p.dataset.year;
+    render();
+  });
+});
+
+const searchBox = document.getElementById("searchBox");
+searchBox.addEventListener("input", (e)=>{ state.search = e.target.value; render(); });
+document.getElementById("clearSearch").addEventListener("click", ()=>{ searchBox.value=""; state.search=""; render(); });
+
+grid.addEventListener("click", (e)=>{
+  const target = e.target.closest("[data-act]");
+  if(!target) return;
+  const row = e.target.closest(".sub");
+  if(!row) return;
+  if(target.dataset.act==="view"){
+    openModal("Preview", `<p class="muted">This is a demo preview for <b>${row.dataset.id}</b>.</p>`);
+  }
+});
+
+/* ======= MODAL ======= */
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody  = document.getElementById("modalBody");
+document.getElementById("modalClose").addEventListener("click", ()=> modal.classList.remove("show"));
+function openModal(title, html){
+  modalTitle.textContent = title;
+  modalBody.innerHTML = html;
+  modal.classList.add("show");
+}
+
+/* ======= INIT ======= */
+(function init(){
+  render();
+  document.getElementById("yr").textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
