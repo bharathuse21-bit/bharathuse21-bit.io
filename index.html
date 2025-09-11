@@ -107,7 +107,34 @@
     </div>
   </div>
 
-  <footer>
+  <footer><!-- Visitor Counter Start -->
+<div id="visitor-counter" style="text-align: center; margin: 20px 0;">
+  <span style="font-size: 16px; font-weight: bold;">Visitor Count:</span>
+  <span id="visit-count" style="font-size: 16px; color: #333;">0</span>
+</div>
+
+<script>
+  (function(){
+    // Use your GitHub Pages site as namespace & key
+    const namespace = "bharathuse21-bit.github.io";
+    const key = "site-visits";
+
+    // The fetch to increment & get the count
+    fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+      .then(response => response.json())
+      .then(data => {
+        if(data && data.value !== undefined){
+          document.getElementById("visit-count").textContent = data.value;
+        } else {
+          console.error("CountAPI: Unexpected response", data);
+        }
+      })
+      .catch(err => {
+        console.error("CountAPI Error:", err);
+      });
+  })();
+</script>
+<!-- Visitor Counter End -->
     <div class="wrap">
       <small>&copy; <span id="yr"></span> MedStudy. Built for medicos ❤️</small>
     </div>
@@ -292,5 +319,6 @@ function openModal(title, html){
 </body>
 
 </html>
+
 
 
