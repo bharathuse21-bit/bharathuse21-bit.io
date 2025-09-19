@@ -73,13 +73,55 @@
 </head>
 <body>
   <header>
-    <div class="wrap nav">
-      <div class="brand"><i class="fa-solid fa-book-medical"></i><b>MedStudyeasy</b></div>
-    </div>
-    <div class="wrap hero">
-      <h1>Notes & Previous Year Question Papers</h1>
-      <p>Browse by year, filter by subject, and preview resources.</p><p>(Note- kindly install google drive app on your device for smooth experince.</p>
-    </div>
+  <div class="wrap nav">
+    <div class="brand"><i class="fa-solid fa-book-medical"></i><b>MedStudyeasy</b></div>
+  </div>
+  <div class="wrap hero">
+    <h1>Notes & Previous Year Question Papers</h1>
+    <p>Browse by year, filter by subject, and preview resources.</p>
+    <p>(Note- kindly install google drive app on your device for smooth experience.)</p>
+
+    <!-- AI Tutor Button -->
+    <a href="ai.html" class="ai-btn-link">
+      <button class="ai-btn">
+        🧑‍⚕️ Try Med AI Tutor
+      </button>
+    </a>
+  </div>
+</header>
+
+<style>
+  /* Responsive AI Button */
+  .ai-btn {
+    padding:14px 28px;
+    font-size:18px;
+    margin-top:16px;
+    background:#ff6b6b;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    display:block;
+    text-align:center;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  .ai-btn:hover {
+    background:#ff5252;
+    transform: scale(1.05);
+  }
+
+  /* Mobile screens */
+  @media (max-width:480px){
+    .ai-btn {
+      width:100%;
+      font-size:20px;
+      padding:16px 0;
+      margin-top:20px;
+    }
+  }
+</style>
   </header>
 
   <main class="wrap">
