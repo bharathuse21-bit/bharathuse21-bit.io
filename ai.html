@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Med AI Tutor</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Helvetica, Arial, sans-serif;
+    background: #f6f8fb;
+    color: #222;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: #2a5c8f;
+    color: #fff;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  }
+  h1 { margin: 0; font-size: 24px; }
+  .container {
+    max-width: 700px;
+    margin: 24px auto;
+    padding: 16px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  }
+  textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    resize: none;
+  }
+  button {
+    background: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: transform 0.2s;
+  }
+  button:hover { background: #ff5252; transform: scale(1.05); }
+  #aiOutput {
+    margin-top: 16px;
+    padding: 12px;
+    background: #eef4fb;
+    border-radius: 8px;
+    min-height: 100px;
+    white-space: pre-wrap;
+  }
+  footer {
+    text-align: center;
+    padding: 16px;
+    margin-top: 24px;
+    color: #555;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧑‍⚕️ Med AI Tutor</h1>
+  <p>Ask medical questions and get instant AI answers!</p>
+</header>
+
+<div class="container">
+  <textarea id="userInput" rows="4" placeholder="Ask your medical question here..."></textarea>
+  <button id="askBtn">Ask AI</button>
+  <div id="aiOutput"></div>
+</div>
+
+<footer>
+  &copy; <span id="yr"></span> MedStudy. Built for medicos ❤️
+</footer>
+
+<script>
+document.getElementById("yr").textContent = new Date().getFullYear();
+
+// Use the iframe URL of your public Hugging Face space
+const hfSpaceUrl = "https://bman21-medstudyeasyai.hf.space/run/predict";
+
+// Button click handler
+document.getElementById("askBtn").addEventListener("click", async () => {
+  const prompt = document.getElementById("userInput").value.trim();
+  if(!prompt) return alert("Please enter a question!");
+
+  const outputDiv = document.getElementById("aiOutput");
+  outputDiv.textContent = "🤖 Thinking...";
+
+  try {
+    // Send POST request to Hugging Face Space API
+    const response = await fetch(hfSpaceUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data: [prompt] })
+    });
+    const result = await response.json();
+
+    if(result.data && result.data[0]){
+      outputDiv.textContent = result.data[0];
+    } else {
+      outputDiv.textContent = "⚠️ AI did not return a valid response.";
+    }
+  } catch(err) {
+    console.error(err);
+    outputDiv.textContent = "⚠️ Error connecting to AI. Make sure the Space URL is correct and public.";
+  }
+});
+</script>
+
+</body>
+</html>
