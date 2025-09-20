@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Med AI Tutor</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Helvetica, Arial, sans-serif;
+    background: #f6f8fb;
+    color: #222;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: #2a5c8f;
+    color: #fff;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  }
+  h1 { margin: 0; font-size: 24px; }
+  .iframe-container {
+    max-width: 900px;
+    margin: 24px auto;
+    padding: 16px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    text-align: center;
+  }
+  iframe {
+    width: 100%;
+    height: 600px;
+    border: none;
+    border-radius: 12px;
+  }
+  footer {
+    text-align: center;
+    padding: 16px;
+    margin-top: 24px;
+    color: #555;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧑‍⚕️ Med AI Tutor</h1>
+  <p>Ask medical questions and get instant AI answers!</p>
+</header>
+
+<div class="iframe-container">
+  <iframe
+    src="https://bman21-medstudyeasyai.hf.space"
+    title="Med AI Tutor"
+  ></iframe>
+</div>
+
+<footer>
+  &copy; <span id="yr"></span> MedStudy. Built for medicos ❤️
+</footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
