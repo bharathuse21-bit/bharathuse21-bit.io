@@ -1,0 +1,36 @@
+name: Generate Sitemap
+
+on:
+  push:
+    branches:
+      - main  # change if your default branch is different
+
+permissions:       # 👈 allow GitHub Actions to push
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0   # 👈 needed for pushing back
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Generate sitemap
+        run: node generate-sitemap.js
+
+      - name: Commit & Push sitemap
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+          git commit -m "Auto-update sitemap" || echo "No changes to commit"
+          git pull --rebase origin main   # 👈 avoid conflicts
+          git push origin HEAD:main
