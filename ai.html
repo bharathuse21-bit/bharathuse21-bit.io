@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Med AI Tutor</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Helvetica, Arial, sans-serif;
+    background: #f6f8fb;
+    color: #222;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  header {
+    background: #2a5c8f;
+    color: #fff;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    width: 1024px;
+    max-width: 100%;
+  }
+
+  h1 { margin: 0; font-size: 24px; }
+
+  .iframe-container {
+    flex: 1;
+    width: 1024px;
+    max-width: 100%;
+    transform-origin: top left;
+    overflow: hidden;
+  }
+
+  iframe {
+    width: 1024px;
+    height: 100%;
+    border: none;
+    transform-origin: top left;
+  }
+
+  footer {
+    text-align: center;
+    padding: 12px;
+    background: #f6f8fb;
+    color: #555;
+    font-size: 14px;
+    width: 1024px;
+    max-width: 100%;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧑‍⚕️ Med AI Tutor</h1>
+  <p>Ask medical questions and get instant AI answers!</p>
+</header>
+
+<div class="iframe-container">
+  <iframe
+    src="https://bman21-medstudyeasyai.hf.space"
+    title="Med AI Tutor"
+    id="medAI"
+  ></iframe>
+</div>
+
+<footer>
+  &copy; <span id="yr"></span> MedStudy. Built for medicos ❤️
+</footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  function scaleDesktop() {
+    const desktopWidth = 1024;
+    const scale = Math.min(window.innerWidth / desktopWidth, 1);
+    const iframe = document.getElementById("medAI");
+    iframe.style.transform = `scale(${scale})`;
+    iframe.style.height = `${window.innerHeight / scale}px`;
+  }
+
+  window.addEventListener("resize", scaleDesktop);
+  window.addEventListener("load", scaleDesktop);
+</script>
+
+</body>
+</html>
