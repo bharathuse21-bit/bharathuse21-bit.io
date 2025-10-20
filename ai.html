@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Strange AI Medical Assistant</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
+  :root {
+    --primary: #2a5c8f;
+    --dr-strange-primary: #8B0000;
+    --dr-strange-secondary: #FFD700;
+    --dr-strange-accent: #4B0082;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Helvetica, Arial, sans-serif;
+    background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .desktop-wrapper {
+    width: 1024px;
+    max-width: 100%;
+    height: 90vh;
+    box-shadow: 0 8px 24px rgba(0,0,0,.15);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+    transform-origin: top left;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  header {
+    background: linear-gradient(120deg, var(--dr-strange-primary), var(--dr-strange-accent));
+    color: #fff;
+    padding: 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(139, 0, 0, 0.2) 0%, transparent 50%);
+    z-index: 1;
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  header p {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+  }
+
+  .iframe-container {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  iframe {
+    width: 1024px;
+    height: 100%;
+    border: none;
+    transform-origin: top left;
+  }
+
+  footer {
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+    color: #555;
+    background: #f0f2f5;
+  }
+
+  /* Dr. Strange Loading Logo */
+  .dr-strange-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .loading-logo-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loading-outer-ring {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 3px solid var(--dr-strange-secondary);
+    border-radius: 50%;
+    animation: rotate 3s linear infinite;
+  }
+
+  .loading-inner-ring {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 2px solid var(--dr-strange-primary);
+    border-radius: 50%;
+    animation: rotate 2s linear infinite reverse;
+  }
+
+  .loading-symbol {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    background: var(--dr-strange-primary);
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dr-strange-secondary);
+    font-size: 24px;
+    font-weight: bold;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .loading-text {
+    color: var(--dr-strange-primary);
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    animation: fadeInOut 2s ease-in-out infinite;
+  }
+
+  .loading-subtext {
+    color: #666;
+    font-size: 14px;
+    text-align: center;
+    max-width: 300px;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+
+  @keyframes fadeInOut {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
+  .loading-hidden {
+    display: none;
+  }
+
+  /* Desktop mode notification */
+  .desktop-mode-notice {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #ff9800;
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .desktop-mode-notice p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .desktop-mode-notice .close-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .desktop-wrapper {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    header, footer {
+      display: block; /* Keep header/footer visible */
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      transform: none; /* no scaling needed */
+    }
+
+    .desktop-mode-notice {
+      display: block;
+    }
+
+    .loading-logo-container {
+      width: 100px;
+      height: 100px;
+    }
+
+    .loading-outer-ring {
+      width: 100px;
+      height: 100px;
+    }
+
+    .loading-inner-ring {
+      width: 80px;
+      height: 80px;
+    }
+
+    .loading-symbol {
+      width: 60px;
+      height: 60px;
+      font-size: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Desktop Mode Notice -->
+<div class="desktop-mode-notice" id="desktopNotice">
+  <p>📱 For better experience, turn on Desktop Mode in your browser</p>
+  <button class="close-btn" id="closeNotice">&times;</button>
+</div>
+
+<div class="desktop-wrapper" id="desktopWrapper">
+  <header>
+    <div class="header-content">
+      <h1>🔮 Dr. Strange AI Medical Assistant</h1>
+      <p>Your personal medical guide - Ask questions and get instant answers!</p>
+    </div>
+  </header>
+
+  <div class="iframe-container">
+    <!-- Dr. Strange Loading Logo -->
+    <div class="dr-strange-loading" id="loadingLogo">
+      <div class="loading-logo-container">
+        <div class="loading-outer-ring"></div>
+        <div class="loading-inner-ring"></div>
+        <div class="loading-symbol">DS</div>
+      </div>
+      <div class="loading-text">Consulting Dr. Strange...</div>
+      <div class="loading-subtext">Preparing mystical medical knowledge for your questions</div>
+    </div>
+
+    <iframe
+      src="https://visolearn-medicallassistant.hf.space"
+      title="Dr. Strange AI Medical Assistant"
+      id="medAI"
+      onload="hideLoadingLogo()"
+    ></iframe>
+  </div>
+
+  <footer>
+    &copy; <span id="yr"></span> MedStudy. Built for medicos ❤️
+  </footer>
+</div>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  function scaleDesktop() {
+    const desktopWidth = 1024;
+    const wrapper = document.getElementById("desktopWrapper");
+    if (window.innerWidth > 768) {
+      const scale = Math.min(window.innerWidth / desktopWidth, 1);
+      wrapper.style.transform = `scale(${scale})`;
+    } else {
+      wrapper.style.transform = "scale(1)"; // no scaling on mobile
+    }
+  }
+
+  function hideLoadingLogo() {
+    const loadingLogo = document.getElementById("loadingLogo");
+    loadingLogo.classList.add('loading-hidden');
+  }
+
+  // Show loading logo initially
+  window.addEventListener('load', function() {
+    // The loading logo will be hidden when the iframe loads (onload event)
+  });
+
+  // Close the desktop mode notice
+  document.getElementById("closeNotice").addEventListener("click", function() {
+    document.getElementById("desktopNotice").style.display = 'none';
+  });
+
+  // Auto-hide the notice after 10 seconds
+  setTimeout(function() {
+    const notice = document.getElementById("desktopNotice");
+    if (notice.style.display !== 'none') {
+      notice.style.display = 'none';
+    }
+  }, 10000);
+
+  window.addEventListener("resize", scaleDesktop);
+  window.addEventListener("load", scaleDesktop);
+</script>
+
+</body>
+</html>
