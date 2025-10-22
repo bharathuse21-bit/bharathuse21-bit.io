@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - MedStudyEasy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .signup-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+        .logo {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        button:hover {
+            background: #5a6fd8;
+        }
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        .links {
+            text-align: center;
+        }
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            margin-bottom: 15px;
+            display: none;
+            padding: 10px;
+            background: #ffeaea;
+            border-radius: 5px;
+        }
+        .success {
+            color: #27ae60;
+            text-align: center;
+            margin-bottom: 15px;
+            display: none;
+            padding: 10px;
+            background: #eaffea;
+            border-radius: 5px;
+        }
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-home a {
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="logo">📚 MedStudyEasy</div>
+        <h2 style="text-align: center; color: #333;">Medical Student Registration</h2>
+        
+        <div id="errorMessage" class="error"></div>
+        <div id="successMessage" class="success"></div>
+        
+        <form id="signupForm">
+            <!-- Basic Information -->
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" placeholder="Enter your college email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Create a password (min. 6 characters)" required>
+            </div>
+
+            <!-- Medical Student Information -->
+            <div class="form-group">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="medicalCollege">Medical College:</label>
+                <input type="text" id="medicalCollege" placeholder="e.g., AIIMS Delhi, KGMU Lucknow" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="batch">Batch:</label>
+                    <select id="batch" required>
+                        <option value="">Select Batch</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="currentYear">Current Year:</label>
+                    <select id="currentYear" required>
+                        <option value="">Select Year</option>
+                        <option value="1st">1st Year</option>
+                        <option value="2nd">2nd Year</option>
+                        <option value="3rd">3rd Year</option>
+                        <option value="4th">4th Year</option>
+                        <option value="Internship">Internship</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn">Create Medical Student Account</button>
+        </form>
+        
+        <div class="links">
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+        
+        <div class="back-home">
+            <a href="index.html">← Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Your Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAivdKu90qWik88ykWxgvs4ZR2DTBRFykA",
+            authDomain: "medstudyeasy-f1e25.firebaseapp.com",
+            projectId: "medstudyeasy-f1e25",
+            storageBucket: "medstudyeasy-f1e25.firebasestorage.app",
+            messagingSenderId: "479468659075",
+            appId: "1:479468659075:web:ac7949ee17a6832a2c56b6",
+            measurementId: "G-N96DW95QRK"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const fullName = document.getElementById('fullName').value;
+            const medicalCollege = document.getElementById('medicalCollege').value;
+            const batch = document.getElementById('batch').value;
+            const currentYear = document.getElementById('currentYear').value;
+            
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            const submitBtn = document.getElementById('submitBtn');
+
+            // Clear previous messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
+            // Show loading state
+            submitBtn.textContent = 'Creating Medical Student Account...';
+            submitBtn.disabled = true;
+
+            try {
+                // 1. Create authentication account
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // 2. Store additional user data in Firestore
+                await db.collection('medicalStudents').doc(user.uid).set({
+                    email: email,
+                    fullName: fullName,
+                    medicalCollege: medicalCollege,
+                    batch: batch,
+                    currentYear: currentYear,
+                    accountType: 'free',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+                    profileCompleted: true
+                });
+
+                // 3. Show success message
+                successDiv.textContent = 'Account created successfully! Redirecting to dashboard...';
+                successDiv.style.display = 'block';
+
+                // 4. Redirect to dashboard
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
+
+            } catch (error) {
+                // Handle errors
+                errorDiv.textContent = getErrorMessage(error.code);
+                errorDiv.style.display = 'block';
+                
+                // Reset button
+                submitBtn.textContent = 'Create Medical Student Account';
+                submitBtn.disabled = false;
+            }
+        });
+
+        function getErrorMessage(errorCode) {
+            const errorMessages = {
+                'auth/email-already-in-use': 'An account with this email already exists',
+                'auth/invalid-email': 'Please enter a valid email address',
+                'auth/weak-password': 'Password should be at least 6 characters long',
+                'auth/operation-not-allowed': 'Email/password accounts are not enabled'
+            };
+            return errorMessages[errorCode] || 'Failed to create account. Please try again.';
+        }
+
+        // Auto-fill current year based on batch (optional enhancement)
+        document.getElementById('batch').addEventListener('change', function() {
+            const batch = parseInt(this.value);
+            const currentYear = document.getElementById('currentYear');
+            
+            if (batch && !isNaN(batch)) {
+                const currentDate = new Date();
+                const currentBatch = currentDate.getFullYear();
+                const yearDifference = currentBatch - batch;
+                
+                // Auto-set current year based on batch
+                if (yearDifference >= 0 && yearDifference <= 4) {
+                    const years = ['1st', '2nd', '3rd', '4th', 'Internship'];
+                    currentYear.value = years[yearDifference] || '1st';
+                }
+            }
+        });
+
+        // Redirect if already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html> 
