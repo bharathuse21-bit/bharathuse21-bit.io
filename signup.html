@@ -1,0 +1,147 @@
+Thanks — here are the most likely causes and a ready-to-drop-in fix you can use.
+
+Quick checklist of what to inspect first
+- Open DevTools (F12) → Console: any JS error will stop the signup handler from running. If you see "Uncaught ReferenceError" or “firebase is not defined”, that’s the culprit.
+- Network tab: make sure the Firebase SDK files are loading (status 200) and not blocked by a CSP or adblocker.
+- Make sure the signup page includes the same Firebase initialization (apiKey/authDomain/… ) that your index.html uses.
+- Confirm the form id and button type: form id="signupForm" and button type="submit" — that makes the browser trigger the submit handler.
+- If signup.html is a separate page, ensure it includes the Firebase scripts and the signup JS (index.html may have it, but a separate signup.html also needs it).
+
+If you prefer a quick fix, add the following script to the signup page (place it after your Firebase SDK scripts and after the firebaseConfig initialization). It:
+- hooks the form submit,
+- validates fields client-side,
+- creates the user with Firebase Authentication (createUserWithEmailAndPassword),
+- saves extra user info to Firestore,
+- shows error/success messages and disables the button while processing.
+
+Proposed file to add (or paste the <script> block into your signup.html before </body>):
+
+```html name=signup-fix.js
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+
+<script>
+/* ----- Replace this firebaseConfig with the exact one used on your site ----- */
+const firebaseConfig = {
+  apiKey: "AIzaSyAivdKu90qWik88ykWxgvs4ZR2DTBRFykA",
+  authDomain: "medstudyeasy-f1e25.firebaseapp.com",
+  projectId: "medstudyeasy-f1e25",
+  storageBucket: "medstudyeasy-f1e25.firebasestorage.app",
+  messagingSenderId: "479468659075",
+  appId: "1:479468659075:web:ac7949ee17a6832a2c56b6",
+  measurementId: "G-N96DW95QRK"
+};
+/* ------------------------------------------------------------------------- */
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+const signupForm = document.getElementById('signupForm');
+const signupBtn = document.getElementById('signupSubmitBtn');
+const signupError = document.getElementById('signupErrorMessage');
+const signupSuccess = document.getElementById('signupSuccessMessage');
+
+function showError(msg) {
+  if (signupError) {
+    signupError.textContent = msg;
+    signupError.style.display = 'block';
+  } else {
+    alert(msg);
+  }
+}
+function showSuccess(msg) {
+  if (signupSuccess) {
+    signupSuccess.textContent = msg;
+    signupSuccess.style.display = 'block';
+  } else {
+    alert(msg);
+  }
+}
+
+if (signupForm) {
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // hide previous messages
+    if (signupError) signupError.style.display = 'none';
+    if (signupSuccess) signupSuccess.style.display = 'none';
+
+    // grab values
+    const email = (document.getElementById('signupEmail') || {}).value?.trim();
+    const password = (document.getElementById('signupPassword') || {}).value;
+    const fullName = (document.getElementById('fullName') || {}).value?.trim();
+    const medicalCollege = (document.getElementById('medicalCollege') || {}).value?.trim();
+    const batch = (document.getElementById('batch') || {}).value;
+    const currentYear = (document.getElementById('currentYear') || {}).value;
+
+    // basic client-side validation
+    if (!email || !password || !fullName || !medicalCollege || !batch || !currentYear) {
+      showError('Please fill all required fields.');
+      return;
+    }
+    if (password.length < 6) {
+      showError('Password must be at least 6 characters.');
+      return;
+    }
+
+    // disable button while processing
+    if (signupBtn) {
+      signupBtn.disabled = true;
+      signupBtn.textContent = 'Creating account...';
+    }
+
+    try {
+      // create user
+      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+
+      // store extra profile info in Firestore under collection 'users'
+      await db.collection('users').doc(user.uid).set({
+        email,
+        fullName,
+        medicalCollege,
+        batch,
+        currentYear,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      showSuccess('Account created successfully. Redirecting...');
+      // optionally redirect to main page
+      setTimeout(() => {
+        window.location.href = '/'; // change target as needed
+      }, 1200);
+
+    } catch (err) {
+      // show readable error
+      showError(err?.message || 'Failed to create account. Check console for details.');
+      console.error('Signup error:', err);
+    } finally {
+      if (signupBtn) {
+        signupBtn.disabled = false;
+        signupBtn.textContent = 'Create Medical Student Account';
+      }
+    }
+  });
+} else {
+  console.warn('signupForm not found in DOM. Ensure the form id="signupForm" exists.');
+}
+</script>
+```
+
+If you already have similar code and it still doesn’t work, check these specifics
+- Console errors: share the first error line from DevTools console if you want me to interpret it.
+- "firebase is not defined" or similar: your page is missing the firebase SDK <script> tags or they load after your signup script. The SDK must be loaded before the script that uses firebase.
+- If signup.html is a separate file, confirm it includes the firebaseConfig + SDKs and this signup code (index.html having the code doesn’t automatically apply to a separate file).
+- CSP or adblockers can block external scripts; test with extensions disabled.
+- Network errors in DevTools → Network: if firebase scripts return 403/blocked, that explains it.
+
+If you want, paste here:
+- any JS console error text, or
+- the signup.html content (or the relevant bottom part that includes your scripts),
+
+and I’ll pinpoint the exact line to fix.
