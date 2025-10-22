@@ -4,7 +4,42 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FKPL3L7HHK"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
+  window.dataLayer = window.dataLayer || [];document.addEventListener('DOMContentLoaded', function() {
+    const loginModal = document.getElementById('loginModal');
+    const signupModal = document.getElementById('signupModal');
+    const showSignupLink = document.getElementById('showSignup');
+    const showLoginLink = document.getElementById('showLogin');
+    const closeSignupButton = document.getElementById('closeSignup');
+
+    // Function to show the Signup modal and hide the Login modal
+    if (showSignupLink) {
+        showSignupLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (loginModal) loginModal.style.display = 'none';
+            if (signupModal) signupModal.classList.add('show');
+        });
+    }
+
+    // Function to show the Login modal and hide the Signup modal
+    if (showLoginLink) {
+        showLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (signupModal) signupModal.classList.remove('show');
+            if (loginModal) loginModal.style.display = 'flex';
+        });
+    }
+
+    // Function to close the Signup modal (goes back to login since it's the main gate)
+    if (closeSignupButton) {
+        closeSignupButton.addEventListener('click', function() {
+            if (signupModal) signupModal.classList.remove('show');
+            if (loginModal) loginModal.style.display = 'flex'; // Optional: show login again
+        });
+    }
+
+    // ... your existing login/signup form submission logic will go here ...
+    // ... (e.g., loginForm.addEventListener('submit', ...) and signupForm.addEventListener('submit', ...) )
+});
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-FKPL3L7HHK');
