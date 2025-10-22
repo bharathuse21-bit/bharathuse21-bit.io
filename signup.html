@@ -1,0 +1,171 @@
+<!-- (replace the existing <script> ... firebase logic at the bottom of your signup.html with this block) -->
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+
+<script>
+  // Replace with your firebaseConfig (kept same as yours)
+  const firebaseConfig = {
+    apiKey: "AIzaSyAivdKu90qWik88ykWxgvs4ZR2DTBRFykA",
+    authDomain: "medstudyeasy-f1e25.firebaseapp.com",
+    projectId: "medstudyeasy-f1e25",
+    storageBucket: "medstudyeasy-f1e25.firebasestorage.app",
+    messagingSenderId: "479468659075",
+    appId: "1:479468659075:web:ac7949ee17a6832a2c56b6",
+    measurementId: "G-N96DW95QRK"
+  };
+
+  (function init() {
+    try {
+      if (typeof firebase === 'undefined') {
+        console.error('Firebase SDK not loaded. Check network/CSP/adblocker.');
+        showError('Internal error: Firebase SDK not loaded. Open DevTools console for details.');
+        return;
+      }
+
+      // Initialize (compat) - safe to call even if already initialized
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+        console.log('Firebase initialized');
+      } else {
+        console.log('Firebase already initialized');
+      }
+
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      const form = document.getElementById('signupForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const errorDiv = document.getElementById('errorMessage');
+      const successDiv = document.getElementById('successMessage');
+
+      // Basic helpers
+      function showError(msg) {
+        console.error('UI error:', msg);
+        if (errorDiv) {
+          errorDiv.textContent = msg;
+          errorDiv.style.display = 'block';
+        } else {
+          alert(msg);
+        }
+      }
+      function showSuccess(msg) {
+        console.log('UI success:', msg);
+        if (successDiv) {
+          successDiv.textContent = msg;
+          successDiv.style.display = 'block';
+        }
+      }
+      function clearMessages() {
+        if (errorDiv) errorDiv.style.display = 'none';
+        if (successDiv) successDiv.style.display = 'none';
+      }
+
+      // Improve error mapping
+      function getErrorMessage(code, message) {
+        const map = {
+          'auth/email-already-in-use': 'An account with this email already exists.',
+          'auth/invalid-email': 'Please enter a valid email address.',
+          'auth/weak-password': 'Password should be at least 6 characters long.',
+          'auth/operation-not-allowed': 'Email/password accounts are not enabled in Firebase.',
+          'auth/unauthorized-domain': 'This site domain is not authorized in Firebase (check Auth → Authorized domains).',
+          'auth/network-request-failed': 'Network error. Check your connection or privacy blockers.'
+        };
+        return map[code] || message || 'Failed to create account. Check console for details.';
+      }
+
+      // Attach submit handler
+      if (!form) {
+        console.warn('No signupForm element found');
+        showError('Internal error: signup form not found.');
+        return;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearMessages();
+
+        if (!navigator.onLine) {
+          showError('You appear to be offline. Please check your network connection.');
+          return;
+        }
+
+        // get values
+        const email = (document.getElementById('email') || {}).value?.trim();
+        const password = (document.getElementById('password') || {}).value || '';
+        const fullName = (document.getElementById('fullName') || {}).value?.trim();
+        const medicalCollege = (document.getElementById('medicalCollege') || {}).value?.trim();
+        const batch = (document.getElementById('batch') || {}).value;
+        const currentYear = (document.getElementById('currentYear') || {}).value;
+
+        console.log('Attempt signup with', { email, fullName, medicalCollege, batch, currentYear });
+
+        // minimal client-side validation
+        if (!email || !password || password.length < 6 || !fullName || !medicalCollege || !batch || !currentYear) {
+          showError('Please fill all required fields and ensure password has at least 6 characters.');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Creating Medical Student Account...';
+
+        try {
+          // Create user in Firebase Auth
+          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+          const user = userCredential.user;
+          console.log('Auth user created', user && user.uid);
+
+          // Save profile to Firestore (wrap in try so auth success is not lost if Firestore fails)
+          try {
+            await db.collection('medicalStudents').doc(user.uid).set({
+              email,
+              fullName,
+              medicalCollege,
+              batch,
+              currentYear,
+              accountType: 'free',
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+              profileCompleted: true
+            });
+            console.log('Profile saved to Firestore for', user.uid);
+          } catch (fsErr) {
+            console.warn('Firestore write failed:', fsErr);
+            // show less alarming message but log details
+            showError('Account created but saving profile failed. Check console for details.');
+            console.error('Firestore error:', fsErr);
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Create Medical Student Account';
+            return;
+          }
+
+          showSuccess('Account created successfully! Redirecting to dashboard...');
+          setTimeout(() => {
+            window.location.href = 'dashboard.html';
+          }, 1200);
+
+        } catch (err) {
+          console.error('createUser error:', err);
+          const friendly = getErrorMessage(err.code, err.message);
+          showError(friendly + (err.code ? ' (' + err.code + ')' : ''));
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Medical Student Account';
+        }
+      });
+
+      // debug: log auth state changes
+      auth.onAuthStateChanged((u) => {
+        console.log('onAuthStateChanged', u && u.uid);
+        // if user is already logged in we redirect to dashboard (your existing behavior)
+        if (u) {
+          console.log('User already signed-in — redirecting to dashboard');
+          window.location.href = 'dashboard.html';
+        }
+      });
+
+    } catch (outerErr) {
+      console.error('Initialization error:', outerErr);
+      showError('Fatal initialization error. Open DevTools console for details.');
+    }
+  })();
+</script>
