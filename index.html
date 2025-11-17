@@ -1733,5 +1733,74 @@ function openModal(title, html){
   document.getElementById("yr").textContent = new Date().getFullYear();
 })();
 </script>
-</body>
+<!-- FIREBASE LOGIN + SIGNUP SCRIPT -->
+<script type="module">
+
+import { auth, db } from "./firebase.js";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import {
+  doc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+
+// ---------- SIGNUP ----------
+document.getElementById("signupForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = signupEmail.value;
+  const password = signupPassword.value;
+  const fullNameValue = fullName.value;
+  const collegeValue = medicalCollege.value;
+  const batchValue = batch.value;
+  const yearValue = currentYear.value;
+
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    await setDoc(doc(db, "users", user.uid), {
+      email,
+      fullName: fullNameValue,
+      medicalCollege: collegeValue,
+      batch: batchValue,
+      currentYear: yearValue,
+      createdAt: new Date()
+    });
+
+    signupSuccessMessage.innerText = "Account created successfully!";
+    signupErrorMessage.innerText = "";
+
+  } catch (err) {
+    signupErrorMessage.innerText = err.message;
+  }
+});
+
+
+// ---------- LOGIN ----------
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = loginEmail.value;
+  const password = loginPassword.value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+
+    loginSuccessMessage.innerText = "Login successful!";
+    loginErrorMessage.innerText = "";
+
+    // redirect after login
+    window.location.href = "home.html";
+
+  } catch (err) {
+    loginErrorMessage.innerText = err.message;
+  }
+});
+
+</script></body>
 </html>
