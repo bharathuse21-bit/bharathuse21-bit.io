@@ -1814,6 +1814,64 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
 </script>
 
-</body>
+<script>
+// Load previously purchased subjects from localStorage
+function loadUnlockStatus() {
+  const unlocked = JSON.parse(localStorage.getItem("unlockedSubjects") || "{}");
+
+  Object.keys(unlocked).forEach(id => {
+    if (unlocked[id]) {
+      unlockSubject(id);
+    }
+  });
+}
+
+// Unlock UI after payment
+function unlockSubject(id) {
+  const link = document.getElementById(id + "-link");
+  const btn = document.querySelector(`button[data-subject="${id}"]`);
+
+  if (link) {
+    link.classList.remove("locked");
+    link.classList.add("unlocked");
+  }
+  if (btn) {
+    btn.innerText = "Unlocked ✔";
+    btn.disabled = true;
+  }
+}
+
+// Razorpay purchase flow
+function purchase(subjectId) {
+  var options = {
+    key: "YOUR_RAZORPAY_KEY_ID",   // ← replace with your real key
+    amount: 49 * 100, // ₹49
+    currency: "INR",
+    name: "MedStudyEasy Notes",
+    description: "Unlock Subject Notes",
+    handler: function (response) {
+      let unlocked = JSON.parse(localStorage.getItem("unlockedSubjects") || "{}");
+      unlocked[subjectId] = true;
+      localStorage.setItem("unlockedSubjects", JSON.stringify(unlocked));
+      unlockSubject(subjectId);
+      alert("Payment successful! Subject unlocked.");
+    }
+  };
+
+  var rzp = new Razorpay(options);
+  rzp.open();
+}
+
+// Add click listeners to all unlock buttons
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".unlock-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      purchase(btn.dataset.subject);
+    });
+  });
+
+  loadUnlockStatus();
+});
+</script></body>
 </html></body>
 </html>
