@@ -1052,7 +1052,7 @@ function hideSignupModal() {
   signupModal.classList.remove('show');
 }
 
-// Login functionality
+// Updated login functionality
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   
@@ -1076,15 +1076,41 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const user = userCredential.user;
     console.log("Login successful:", user.email);
     
-    // Create Firestore doc if it doesn't exist (for old users)
+    // Ensure user document exists in Firestore
     const userRef = db.collection('users').doc(user.uid);
     const userSnap = await userRef.get();
     
-    if (!userSnap.exists()) {
+    if (!userSnap.exists) {
+      // Create user document with basic structure
       await userRef.set({
         email: email,
         premium_surgery1: false,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        accountType: 'free',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+        // Add default premium fields for all premium content
+        premium_anat: false,
+        premium_biochem: false,
+        premium_physio: false,
+        premium_pharma: false,
+        premium_micro: false,
+        premium_patho: false,
+        premium_psm: false,
+        premium_fmt: false,
+        premium_peds: false,
+        premium_medicine: false,
+        premium_surgery1: false,
+        premium_surgery2: false,
+        premium_obg: false,
+        premium_gynae: false,
+        premium_ent: false,
+        premium_oph: false
+      });
+      console.log("New user document created");
+    } else {
+      // Update last login for existing user
+      await userRef.update({
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
       });
     }
     
@@ -1144,19 +1170,36 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
     const user = userCredential.user;
     console.log("Auth account created:", user.uid);
 
-    // 2. Store additional user data in Firestore
-    await db.collection('users').doc(user.uid).set({
-      email: email,
-      fullName: fullName,
-      medicalCollege: medicalCollege,
-      batch: batch,
-      currentYear: currentYear,
-      accountType: 'free',
-      premium_surgery1: false,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-      profileCompleted: true
-    });
+    // Updated signup functionality - add this inside the try block after creating user
+// 2. Store additional user data in Firestore with all premium fields
+await db.collection('users').doc(user.uid).set({
+  email: email,
+  fullName: fullName,
+  medicalCollege: medicalCollege,
+  batch: batch,
+  currentYear: currentYear,
+  accountType: 'free',
+  // Initialize all premium fields as false
+  premium_anat: false,
+  premium_biochem: false,
+  premium_physio: false,
+  premium_pharma: false,
+  premium_micro: false,
+  premium_patho: false,
+  premium_psm: false,
+  premium_fmt: false,
+  premium_peds: false,
+  premium_medicine: false,
+  premium_surgery1: false,
+  premium_surgery2: false,
+  premium_obg: false,
+  premium_gynae: false,
+  premium_ent: false,
+  premium_oph: false,
+  createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+  lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+  profileCompleted: true
+});
     
     console.log("User data saved to Firestore");
 
@@ -1570,7 +1613,28 @@ function getSubjects(){
   return list.filter(s => s.display.toLowerCase().includes(term));
 }
 
-function render(){
+// Function to check if user has premium access
+async function checkPremiumStatus(subjectId) {
+  const user = auth.currentUser;
+  if (!user) return false;
+  
+  try {
+    const userRef = db.collection('users').doc(user.uid);
+    const userDoc = await userRef.get();
+    
+    if (userDoc.exists) {
+      const userData = userDoc.data();
+      return userData[`premium_${subjectId}`] || false;
+    }
+    return false;
+  } catch (error) {
+    console.error("Error checking premium status:", error);
+    return false;
+  }
+}
+
+// Update the render function to check premium status
+async function render(){
   const list = getSubjects();
   grid.innerHTML = "";
 
@@ -1579,7 +1643,7 @@ function render(){
   const yearNames = {1:"1st Year",2:"2nd Year",3:"3rd Year",4:"4th Year"};
   const tabNames = {
     "notes": "Handwritten Notes",
-    "practical": "Practical Notes",
+    "practical": "Practical Notes", 
     "books": "MBBS Books",
     "pyq": "Previous Year Questions"
   };
@@ -1587,21 +1651,26 @@ function render(){
                     <div class="sub-list"></div>`;
   const subList = card.querySelector(".sub-list");
 
-  list.forEach(sub=>{
+  for (const sub of list) {
     const row = document.createElement("div");
     row.className = "sub";
     row.dataset.id = sub.id;
+    
+    // Check if user already has premium access
+    const hasPremium = sub.premium ? await checkPremiumStatus(sub.id) : true;
+    
     row.innerHTML = `
       <div class="left">
         <span class="tag">Y${state.year}</span>
-        ${(state.tab==="notes" || state.tab==="practical" || state.tab==="books") && sub.link ? 
+        ${(state.tab==="notes" || state.tab==="practical" || state.tab==="books") && sub.link && hasPremium ? 
           `<a href="${sub.link}" target="_blank" title="Open Drive link" style="margin-right:6px;">
             <i class="fa-brands fa-google-drive" style="color:#4285F4"></i>
           </a>` : ""}
         <strong>${sub.display}</strong>
+        ${hasPremium && sub.premium ? '<span style="color: green; font-size: 10px; margin-left: 5px;">✓ UNLOCKED</span>' : ''}
       </div>
       <div class="acts">
-${sub.premium ? 
+${sub.premium && !hasPremium ? 
   `<button class="icon-btn pay" data-act="pay" data-id="${sub.id}" data-price="${sub.price}">
       Unlock ₹${sub.price}
    </button>` 
@@ -1613,7 +1682,7 @@ ${sub.premium ?
 </div>
     `;
     subList.appendChild(row);
-  });
+  }
 
   if(list.length === 0){
     subList.innerHTML = `<p class="muted">No subjects found ❗</p>`;
@@ -1629,7 +1698,7 @@ document.querySelectorAll(".tab-btn").forEach(btn=>{
     document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
     state.tab = btn.dataset.tab;
-    render();
+    render(); // This will now call the async render
   });
 });
 
@@ -1638,13 +1707,21 @@ document.querySelectorAll(".pill").forEach(p=>{
     document.querySelectorAll(".pill").forEach(x=>x.classList.remove("active"));
     p.classList.add("active");
     state.year = p.dataset.year;
-    render();
+    render(); // This will now call the async render
   });
 });
 
 const searchBox = document.getElementById("searchBox");
-searchBox.addEventListener("input", (e)=>{ state.search = e.target.value; render(); });
-document.getElementById("clearSearch").addEventListener("click", ()=>{ searchBox.value=""; state.search=""; render(); });
+searchBox.addEventListener("input", (e)=>{ 
+  state.search = e.target.value; 
+  render(); // This will now call the async render
+});
+
+document.getElementById("clearSearch").addEventListener("click", ()=>{ 
+  searchBox.value=""; 
+  state.search=""; 
+  render(); // This will now call the async render
+});
 
 /* ======= CLICK HANDLER ======= */
 grid.addEventListener("click", (e) => {
@@ -1738,8 +1815,8 @@ function openModal(title, html){
 }
 
 /* ======= INIT ======= */
-(function init(){
-  render();
+(async function init(){
+  await render(); // Make this async too
   document.getElementById("yr").textContent = new Date().getFullYear();
 })();
 
@@ -1778,7 +1855,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Payment function
+// Payment function - UPDATED VERSION
 function payWithRazorpay(id, price) {
   const user = auth.currentUser;
   if (!user) {
@@ -1796,16 +1873,39 @@ function payWithRazorpay(id, price) {
       alert("Payment Success! Updating unlock…");
 
       try {
-        await db.collection('users').doc(user.uid).update({
-          ["premium_" + id]: true
+        const userRef = db.collection('users').doc(user.uid);
+        const userDoc = await userRef.get();
+        
+        if (!userDoc.exists) {
+          // Create the user document if it doesn't exist
+          await userRef.set({
+            email: user.email,
+            premium_surgery1: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+
+        // Now update the premium status
+        await userRef.update({
+          ["premium_" + id]: true,
+          lastPayment: firebase.firestore.FieldValue.serverTimestamp()
         });
 
         alert("UNLOCKED ✔");
         location.reload();
 
       } catch (err) {
-        alert("Firebase Update Error ❌: " + err.message);
+        console.error("Payment processing error:", err);
+        alert("Payment processing error ❌: " + err.message);
       }
+    },
+    prefill: {
+      name: user.displayName || "Medical Student",
+      email: user.email
+    },
+    theme: {
+      color: "#8B0000"
     }
   };
 
