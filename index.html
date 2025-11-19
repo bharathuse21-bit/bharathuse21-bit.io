@@ -1828,15 +1828,15 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 </script>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script type="module" src="./payment.js"></script></body>
-</html><script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 <script type="module">
 import { auth, db } from "./firebase.js";
 import { doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 document.addEventListener("click", async (e) => {
+
   if (e.target.classList.contains("pay")) {
-    
+
     const subId = e.target.dataset.id;
     const price = e.target.dataset.price;
 
@@ -1844,19 +1844,26 @@ document.addEventListener("click", async (e) => {
     if (!user) return alert("Please login first!");
 
     var options = {
-      "key": "rzp_live_RhXM2yASrfI7Mk",
-      "amount": price * 100,
-      "currency": "INR",
-      "name": "MedStudyEasy",
-      "description": "Unlock " + subId,
-      "handler": async function () {
+      key: "rzp_live_RhXM2yASrfI7Mk",
+      amount: price * 100,
+      currency: "INR",
+      name: "MedStudyEasy",
+      description: "Unlock " + subId,
 
-        await updateDoc(doc(db, "users", user.uid), {
-          ["premium_" + subId]: true
-        });
+      handler: async function (response) {
+        alert("Payment Success! Updating unlock…");
 
-        alert("Unlocked successfully!");
-        location.reload();
+        try {
+          await updateDoc(doc(db, "users", user.uid), {
+            ["premium_" + subId]: true
+          });
+
+          alert("UNLOCKED ✔");
+          location.reload();
+
+        } catch (err) {
+          alert("Firebase Update Error ❌: " + err.message);
+        }
       }
     };
 
@@ -1864,5 +1871,6 @@ document.addEventListener("click", async (e) => {
     rzp.open();
   }
 });
-</script></body>
+</script>
+</body>
 </html>
