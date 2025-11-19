@@ -1646,12 +1646,18 @@ grid.addEventListener("click", (e) => {
   const subject = subjectList.find(s => s.id === row.dataset.id);
 
   /* -------- PAYMENT HANDLER -------- */
-  if (target.dataset.act === "pay") {
+if (target.dataset.act === "pay") {
     const id = target.dataset.id;
     const price = target.dataset.price;
-    startPayment(id, price);
+
+    const user = auth.currentUser;
+    if (!user) return alert("Please login first!");
+
+    payWithRazorpay(id, price);
     return;
-  }
+}
+
+  
 
   /* -------- VIEW HANDLER -------- */
   if (target.dataset.act === "view" && subject) {
