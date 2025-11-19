@@ -1634,36 +1634,39 @@ searchBox.addEventListener("input", (e)=>{ state.search = e.target.value; render
 document.getElementById("clearSearch").addEventListener("click", ()=>{ searchBox.value=""; state.search=""; render(); });
 
 /* ======= CLICK HANDLER ======= */
-grid.addEventListener("click", (e)=>{if (target.dataset.act === "pay") {
-    const id = target.dataset.id;
-    const price = target.dataset.price;
-    startPayment(id, price);
-    return;
-}
+grid.addEventListener("click", (e) => {
+
   const target = e.target.closest("[data-act]");
-  if(!target) return;
+  if (!target) return;
+
   const row = e.target.closest(".sub");
-  if(!row) return;
+  if (!row) return;
 
   const subjectList = DATA[state.tab][state.year] || [];
   const subject = subjectList.find(s => s.id === row.dataset.id);
 
-  if(target.dataset.act==="view" && subject){
-    if((state.tab === "notes" || state.tab === "practical" || state.tab === "books") && subject.link){
-      const tabNames = {
-        "notes": "Handwritten Notes",
-        "practical": "Practical Notes",
-        "books": "MBBS Books"
-      };
-      openModal(subject.display + " - " + tabNames[state.tab], `
+  /* -------- PAYMENT HANDLER -------- */
+  if (target.dataset.act === "pay") {
+    const id = target.dataset.id;
+    const price = target.dataset.price;
+    startPayment(id, price);
+    return;
+  }
+
+  /* -------- VIEW HANDLER -------- */
+  if (target.dataset.act === "view" && subject) {
+    if ((state.tab === "notes" || state.tab === "practical" || state.tab === "books") && subject.link) {
+      openModal(subject.display, `
         <p>
-          <a href="${subject.link}" target="_blank" rel="noopener" style="font-weight:bold;color:#2a5c8f;">
-            &#128196; View/Download Resource (Google Drive)
+          <a href="${subject.link}" target="_blank" style="font-weight:bold;color:#2a5c8f;">
+            View/Download Resource
           </a>
         </p>
       `);
       return;
     }
+  }
+});
 
     // PYQ modal rendering
     if(state.tab === "pyq" && subject.papers){
