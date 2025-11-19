@@ -1829,5 +1829,40 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script type="module" src="./payment.js"></script></body>
-</html></body>
+</html><script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script type="module">
+import { auth, db } from "./firebase.js";
+import { doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("pay")) {
+    
+    const subId = e.target.dataset.id;
+    const price = e.target.dataset.price;
+
+    const user = auth.currentUser;
+    if (!user) return alert("Please login first!");
+
+    var options = {
+      "key": "rzp_live_RhXM2yASrfI7Mk",
+      "amount": price * 100,
+      "currency": "INR",
+      "name": "MedStudyEasy",
+      "description": "Unlock " + subId,
+      "handler": async function () {
+
+        await updateDoc(doc(db, "users", user.uid), {
+          ["premium_" + subId]: true
+        });
+
+        alert("Unlocked successfully!");
+        location.reload();
+      }
+    };
+
+    var rzp = new Razorpay(options);
+    rzp.open();
+  }
+});
+</script></body>
 </html>
