@@ -1634,7 +1634,12 @@ searchBox.addEventListener("input", (e)=>{ state.search = e.target.value; render
 document.getElementById("clearSearch").addEventListener("click", ()=>{ searchBox.value=""; state.search=""; render(); });
 
 /* ======= CLICK HANDLER ======= */
-grid.addEventListener("click", (e)=>{
+grid.addEventListener("click", (e)=>{if (target.dataset.act === "pay") {
+    const id = target.dataset.id;
+    const price = target.dataset.price;
+    startPayment(id, price);
+    return;
+}
   const target = e.target.closest("[data-act]");
   if(!target) return;
   const row = e.target.closest(".sub");
