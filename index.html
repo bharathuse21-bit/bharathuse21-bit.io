@@ -1765,7 +1765,8 @@ import {
 
 import {
   doc,
-  setDoc
+  setDoc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
@@ -1784,17 +1785,17 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
+    // Create Firestore document (very important)
     await setDoc(doc(db, "users", user.uid), {
-  email,
-  fullName: fullNameValue,
-  medicalCollege: collegeValue,
-  batch: batchValue,
-  currentYear: yearValue,
-  createdAt: new Date(),
+      email,
+      fullName: fullNameValue,
+      medicalCollege: collegeValue,
+      batch: batchValue,
+      currentYear: yearValue,
+      createdAt: new Date(),
 
-  // PREMIUM FLAGS (default locked)
-  premium_surgery1: false
-});
+      premium_surgery1: false   // default locked
+    });
 
     signupSuccessMessage.innerText = "Account created successfully!";
     signupErrorMessage.innerText = "";
@@ -1813,7 +1814,21 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   const password = loginPassword.value;
 
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // ⭐ VERY IMPORTANT FIX ⭐
+    // Create Firestore doc if it doesn't exist (for old users)
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      await setDoc(userRef, {
+        email,
+        premium_surgery1: false,
+        createdAt: new Date()
+      });
+    }
 
     loginSuccessMessage.innerText = "Login successful!";
     loginErrorMessage.innerText = "";
