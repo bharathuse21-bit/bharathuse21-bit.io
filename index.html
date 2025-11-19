@@ -1588,8 +1588,16 @@ function render(){
         <strong>${sub.display}</strong>
       </div>
       <div class="acts">
-        <button class="icon-btn view" title="Preview" data-act="view"><i class="fa-regular fa-eye"></i></button>
-      </div>
+  ${sub.premium ? 
+    `<button class="icon-btn pay" data-id="${sub.id}" data-price="${sub.price}">
+       Unlock ₹${sub.price}
+     </button>` 
+  : 
+    `<button class="icon-btn view" title="Preview" data-act="view">
+       <i class="fa-regular fa-eye"></i>
+     </button>`
+  }
+</div>
     `;
     subList.appendChild(row);
   });
