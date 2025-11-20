@@ -1864,27 +1864,58 @@ function payWithRazorpay(id, price) {
   }
 
   var options = {
-    key: "rzp_live_RhXM2yASrfI7Mk",
+    key: "rzp_live_Ri5kxrGnD47ZYp",
     amount: price * 100,
     currency: "INR",
     name: "MedStudyEasy",
     description: "Unlock " + id,
     handler: async function (response) {
-      alert("Payment Success! Updating unlock…");
+  const paymentId = response.razorpay_payment_id;
 
-      try {
-        const userRef = db.collection('users').doc(user.uid);
-        const userDoc = await userRef.get();
-        
-        if (!userDoc.exists) {
-          // Create the user document if it doesn't exist
-          await userRef.set({
-            email: user.email,
-            premium_surgery1: false,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        }
+  // 1️⃣ Capture payment via Firebase backend
+  try {
+    const capture = firebase.functions().httpsCallable("capturePayment");
+    const result = await capture({
+      paymentId: paymentId,
+      amount: price
+    });
+
+    if (!result.data.success) {
+      alert("Payment could not be captured. Contact support.");
+      return;
+    }
+
+  } catch (err) {
+    console.error("Capture error:", err);
+    alert("Payment capture failed. Contact support.");
+    return;
+  }
+
+  // 2️⃣ Unlock the subject in Firestore
+  try {
+    const userRef = db.collection("users").doc(user.uid);
+
+    await userRef.set(
+      {
+        email: user.email
+      },
+      { merge: true }
+    );
+
+    await userRef.update({
+      ["premium_" + id]: true,
+      lastPayment: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    alert("UNLOCKED ✔");
+    location.reload();
+
+  } catch (err) {
+    console.error("Unlock error:", err);
+    alert("Payment captured, but unlocking failed.");
+  }
+}
+
 
         // Now update the premium status
         await userRef.update({
