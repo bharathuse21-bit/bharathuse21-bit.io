@@ -1855,6 +1855,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+<script>
 // Payment function - UPDATED VERSION
 function payWithRazorpay(id, price) {
   const user = auth.currentUser;
@@ -1869,55 +1870,37 @@ function payWithRazorpay(id, price) {
     currency: "INR",
     name: "MedStudyEasy",
     description: "Unlock " + id,
+
     handler: async function (response) {
-  const paymentId = response.razorpay_payment_id;
+      const paymentId = response.razorpay_payment_id;
 
-  // 1️⃣ Capture payment via Firebase backend
-  try {
-    const capture = firebase.functions().httpsCallable("capturePayment");
-    const result = await capture({
-      paymentId: paymentId,
-      amount: price
-    });
+      // 1️⃣ Capture payment in Firebase
+      try {
+        const capture = firebase.functions().httpsCallable("capturePayment");
+        const result = await capture({
+          paymentId: paymentId,
+          amount: price
+        });
 
-    if (!result.data.success) {
-      alert("Payment could not be captured. Contact support.");
-      return;
-    }
+        if (!result.data.success) {
+          alert("Payment could not be captured. Contact support.");
+          return;
+        }
+      } catch (err) {
+        console.error("Capture error:", err);
+        alert("Payment capture failed ❌");
+        return;
+      }
 
-  } catch (err) {
-    console.error("Capture error:", err);
-    alert("Payment capture failed. Contact support.");
-    return;
-  }
+      // 2️⃣ Update Firestore (unlock)
+      try {
+        const userRef = db.collection("users").doc(user.uid);
 
-  // 2️⃣ Unlock the subject in Firestore
-  try {
-    const userRef = db.collection("users").doc(user.uid);
+        await userRef.set(
+          { email: user.email },
+          { merge: true }
+        );
 
-    await userRef.set(
-      {
-        email: user.email
-      },
-      { merge: true }
-    );
-
-    await userRef.update({
-      ["premium_" + id]: true,
-      lastPayment: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    alert("UNLOCKED ✔");
-    location.reload();
-
-  } catch (err) {
-    console.error("Unlock error:", err);
-    alert("Payment captured, but unlocking failed.");
-  }
-}
-
-
-        // Now update the premium status
         await userRef.update({
           ["premium_" + id]: true,
           lastPayment: firebase.firestore.FieldValue.serverTimestamp()
@@ -1927,23 +1910,26 @@ function payWithRazorpay(id, price) {
         location.reload();
 
       } catch (err) {
-        console.error("Payment processing error:", err);
-        alert("Payment processing error ❌: " + err.message);
+        console.error("Unlock error:", err);
+        alert("Payment captured but unlocking failed ❌");
       }
     },
+
     prefill: {
       name: user.displayName || "Medical Student",
       email: user.email
     },
-    theme: {
-      color: "#8B0000"
-    }
+
+    theme: { color: "#8B0000" }
   };
 
   var rzp = new Razorpay(options);
   rzp.open();
 }
-</script>
+</script>   <!-- ✅ THIS WAS MISSING -->
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
 </html>
+
+
