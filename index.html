@@ -909,49 +909,60 @@
         <span style="font-size: 16px; font-weight: bold;">Visitor Count:</span>
         <span id="visit-count" style="font-size: 16px; color: #333;">0</span>
       </div>
-      
       <section id="contact" style="padding:60px 20px; background:#f8f9fa; text-align:center;">
-        <h2 style="font-size:2rem; margin-bottom:20px; color:#222;">Contact Us</h2>
-        <p style="margin-bottom:30px; font-size:1.1rem; color:#555;">
-          Have questions, suggestions, or feedback? We'd love to hear from you!
-        </p>
-        
-        <form action="https://formspree.io/f/xnngdkdq" method="POST" 
-              style="max-width:500px;margin:auto; background:#fff; padding:25px; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.08);">
-          
-          <input type="text" name="name" placeholder="Your Name" required 
-                 style="width:100%;padding:12px;margin:10px 0;border:1px solid #ddd;border-radius:5px;font-size:1rem;">
-          
-          <input type="email" name="email" placeholder="Your Email" required 
-                 style="width:100%;padding:12px;margin:10px 0;border:1px solid #ddd;border-radius:5px;font-size:1rem;">
-          
-          <textarea name="message" placeholder="Your Message" required 
-                    style="width:100%;padding:12px;margin:10px 0;border:1px solid #ddd;border-radius:5px;font-size:1rem;min-height:120px;"></textarea>
-          
-          <button type="submit" 
-                  style="width:100%;padding:12px;background:#007BFF;color:#fff;font-size:1.1rem;border:none;border-radius:5px;cursor:pointer;transition:0.3s;">
-            Send Message
-          </button>
-        </form>
-      </section>
-      
-      <div class="wrap">
-        <small>&copy; <span id="yr"></span> MedStudy. Built for medicos ❤️</small>
-      </div>
-    </footer>
+  <h2 style="font-size:2rem; margin-bottom:20px; color:#222;">Contact Us</h2>
 
-    <section style="background: var(--card); border-radius: 14px; padding: 20px; margin: 20px 16px; box-shadow: var(--shadow); text-align: center;" id="support">
-      <h2><i class="fa-solid fa-heart"></i> Support MedStudy</h2>
-      <p>Your donation helps us maintain and improve this platform for all medicos.</p>
-      <a href="upi://pay?pa=913078294521@ybl&pn=MedStudy&cu=INR" 
-         style="display: inline-block; background: var(--secondary); color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; margin: 10px; font-weight: bold;">
-        <i class="fa-solid fa-indian-rupee-sign"></i> Donate via UPI
-      </a>
-      <p style="font-size: 14px; color: var(--muted); margin-top: 10px;">
-        UPI ID: 913078294521@ybl
-      </p>
-    </section>
-  </div>
+  <p style="margin-bottom:20px; font-size:1.1rem; color:#555;">
+    Have questions, suggestions, or feedback? We'd love to hear from you!
+  </p>
+
+  <!-- Instagram Button with Hover Animation -->
+  <a href="https://www.instagram.com/_medstudyeasy?igsh=dXpxbDBlcjh3dnl6&utm_source=qr" 
+     target="_blank"
+     style="
+       display:inline-block;
+       background:#E1306C;
+       color:#fff;
+       padding:12px 20px;
+       border-radius:8px;
+       text-decoration:none;
+       font-weight:bold;
+       font-size:1.1rem;
+       margin-bottom:25px;
+       box-shadow:0 4px 10px rgba(0,0,0,0.1);
+       transition:transform 0.25s ease, box-shadow 0.25s ease;
+     "
+     onmouseover="this.style.transform='scale(1.06)'; this.style.boxShadow='0 6px 14px rgba(225,48,108,0.45)'"
+     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.1)'">
+    <i class="fa-brands fa-instagram"></i> Follow us on Instagram
+  </a>
+
+  <!-- Contact Form -->
+  <form action="https://formspree.io/f/xnngdkdq" method="POST"
+        style="max-width:500px; margin:auto; background:#fff; padding:25px;
+        border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.08);">
+
+    <input type="text" name="name" placeholder="Your Name" required
+           style="width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:5px; font-size:1rem;">
+
+    <input type="email" name="email" placeholder="Your Email" required
+           style="width:100%; padding:12px; margin:10px 0; border:1px solid:#ddd; border-radius:5px; font-size:1rem;">
+
+    <textarea name="message" placeholder="Your Message" required
+              style="width:100%; padding:12px; margin:10px 0; border:1px solid:#ddd; border-radius:5px; font-size:1rem; min-height:120px;"></textarea>
+
+    <button type="submit"
+            style="width:100%; padding:12px; background:#007BFF; color:#fff; font-size:1.1rem;
+            border:none; border-radius:5px; cursor:pointer; transition:0.3s;">
+      Send Message
+    </button>
+  </form>
+</section>
+
+<!-- Footer -->
+<div class="wrap" style="text-align:center; margin-top:20px;">
+  <small>&copy; <span id="yr"></span> MedStudy. Built for medicos ❤️</small>
+</div>
 
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json">
