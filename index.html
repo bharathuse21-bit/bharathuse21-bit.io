@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FKPL3L7HHK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FKPL3L7HHK');
+</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MedStudyeasy – MBBS Medical Notes, PYQs & Dr. Strange Medical Guide</title>
+<meta name="description" content="Free MBBS medical notes, previous year question papers (PYQs), and Dr. Strange - your personal medical guide. Get instant answers to medical questions and diagnosis help." />
+<meta name="keywords" content="MBBS notes, medical notes, PYQ, previous year questions, Dr. Strange medical guide, diagnosis help, medical questions, anatomy notes, physiology notes, pathology notes" />
+<meta name="author" content="MedStudyeasy" />
+
+<!-- Open Graph for Social Sharing -->
+<meta property="og:title" content="MedStudyeasy – Free MBBS Notes, PYQs & Dr. Strange Medical Guide" />
+<meta property="og:description" content="Access free MBBS medical notes, previous year question papers, and Dr. Strange - your personal medical guide for instant answers to medical questions." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.medstudyeasy.shop/" />
+<meta property="og:image" content="https://www.medstudyeasy.shop/logo.png" />
+
+<!-- Mobile Friendly -->
+<meta name="theme-color" content="#8B0000" />
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+<style>
+/* Your existing CSS remains the same */
+:root{
+    --primary:#2a5c8f;--secondary:#4caf50;--accent:#ff6b6b;
+    --bg:#f6f8fb;--card:#fff;--text:#222;--muted:#777;
+    --shadow:0 8px 24px rgba(0,0,0,.08);
+    --dr-strange-primary: #8B0000;
+    --dr-strange-secondary: #FFD700;
+    --dr-strange-accent: #4B0082;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0; scroll-behavior: smooth;}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  
+  /* All your existing CSS styles remain unchanged */
+  /* ... (keep all your existing CSS) ... */
+  
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1751053028345383"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Login Modal - Shows First -->
+  <div id="loginModal">
+    <div class="login-container">
+      <div class="login-logo">📚</div>
+      <h2>Welcome to MedStudyeasy</h2>
+      <p>Please login to access medical study resources</p>
+      
+      <div id="loginErrorMessage" class="error-message"></div>
+      <div id="loginSuccessMessage" class="success-message"></div>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" placeholder="Enter your email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required>
+        </div>
+        
+        <button type="submit" class="login-btn" id="loginSubmitBtn">
+          Login to MedStudyeasy
+        </button>
+      </form>
+      
+      <div class="login-links">
+        <p>Don't have an account? <a href="#" id="showSignup">Create account</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div id="signupModal" class="modal">
+    <div class="dialog" style="max-width: 500px;">
+      <span class="close" id="closeSignup">&times;</span>
+      <h3>Create Medical Student Account</h3>
+      
+      <div id="signupErrorMessage" class="error-message"></div>
+      <div id="signupSuccessMessage" class="success-message"></div>
+      
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="signupEmail">Email Address *</label>
+          <input type="email" id="signupEmail" placeholder="Enter your college email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="signupPassword">Password * (min. 6 characters)</label>
+          <input type="password" id="signupPassword" placeholder="Create a password" required minlength="6">
+        </div>
+
+        <div class="form-group">
+          <label for="fullName">Full Name *</label>
+          <input type="text" id="fullName" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="medicalCollege">Medical College *</label>
+          <input type="text" id="medicalCollege" placeholder="e.g., AIIMS Delhi, KGMU Lucknow" required>
+        </div>
+
+        <div style="display: flex; gap: 15px;">
+          <div class="form-group" style="flex: 1;">
+            <label for="batch">Batch *</label>
+            <select id="batch" required>
+              <option value="">Select Batch</option>
+              <option value="2020">2020</option>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+            </select>
+          </div>
+          
+          <div class="form-group" style="flex: 1;">
+            <label for="currentYear">Current Year *</label>
+            <select id="currentYear" required>
+              <option value="">Select Year</option>
+              <option value="1st">1st Year</option>
+              <option value="2nd">2nd Year</option>
+              <option value="3rd">3rd Year</option>
+              <option value="4th">4th Year</option>
+              <option value="Internship">Internship</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="login-btn" id="signupSubmitBtn" style="margin-top: 20px;">
+          Create Medical Student Account
+        </button>
+      </form>
+      
+      <div class="login-links">
+        <p>Already have an account? <a href="#" id="showLogin">Login here</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Website Content - Hidden until login -->
+  <div id="mainContent">
+    <!-- Your main content remains unchanged -->
+    <!-- ... (keep all your existing HTML structure) ... -->
+  </div>
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "MedStudyeasy",
+  "url": "https://www.medstudyeasy.shop/",
+  "description": "Free MBBS medical notes, previous year question papers, and Dr. Strange - your personal medical guide for diagnosis help and instant answers to medical questions",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.medstudyeasy.shop/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "MedStudyeasy",
+  "url": "https://www.medstudyeasy.shop/",
+  "logo": "https://www.medstudyeasy.shop/logo.png",
+  "description": "Free MBBS medical notes, PYQs, and Dr. Strange - your personal medical guide for medical students.",
+  "sameAs": [
+    "https://www.facebook.com/",
+    "https://www.instagram.com/"
+  ]
+}
+</script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-functions-compat.js"></script>
+
+<script>
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAivdKu90qWik88ykWxgvs4ZR2DTBRFykA",
+  authDomain: "medstudyeasy-f1e25.firebaseapp.com",
+  projectId: "medstudyeasy-f1e25",
+  storageBucket: "medstudyeasy-f1e25.firebasestorage.app",
+  messagingSenderId: "479468659075",
+  appId: "1:479468659075:web:ac7949ee17a6832a2c56b6",
+  measurementId: "G-N96DW95QRK"
+};
+
+// Initialize Firebase
+try {
+  firebase.initializeApp(firebaseConfig);
+  console.log("Firebase initialized successfully");
+} catch (error) {
+  console.error("Firebase initialization error:", error);
+}
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+const functions = firebase.functions();
+
+// DOM Elements
+const loginModal = document.getElementById('loginModal');
+const signupModal = document.getElementById('signupModal');
+const mainContent = document.getElementById('mainContent');
+const userWelcome = document.getElementById('userWelcome');
+
+// Show main content and hide login modal
+function showMainContent(user) {
+  loginModal.style.display = 'none';
+  mainContent.style.display = 'block';
+  if (user) {
+    userWelcome.textContent = `Welcome, ${user.email}`;
+  }
+}
+
+// Show login modal and hide main content
+function showLoginModal() {
+  loginModal.style.display = 'flex';
+  mainContent.style.display = 'none';
+  hideSignupModal();
+  // Clear previous messages
+  document.getElementById('loginErrorMessage').style.display = 'none';
+  document.getElementById('loginSuccessMessage').style.display = 'none';
+  document.getElementById('loginForm').reset();
+}
+
+// Show signup modal
+function showSignupModal() {
+  signupModal.classList.add('show');
+  // Clear previous messages
+  document.getElementById('signupErrorMessage').style.display = 'none';
+  document.getElementById('signupSuccessMessage').style.display = 'none';
+  document.getElementById('signupForm').reset();
+}
+
+// Hide signup modal
+function hideSignupModal() {
+  signupModal.classList.remove('show');
+}
+
+// Updated login functionality
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const errorDiv = document.getElementById('loginErrorMessage');
+  const successDiv = document.getElementById('loginSuccessMessage');
+  const submitBtn = document.getElementById('loginSubmitBtn');
+
+  // Clear previous messages
+  errorDiv.style.display = 'none';
+  successDiv.style.display = 'none';
+  
+  // Show loading state
+  submitBtn.textContent = 'Logging in...';
+  submitBtn.disabled = true;
+
+  try {
+    console.log("Attempting login for:", email);
+    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+    const user = userCredential.user;
+    console.log("Login successful:", user.email);
+    
+    // Ensure user document exists in Firestore
+    const userRef = db.collection('users').doc(user.uid);
+    const userSnap = await userRef.get();
+    
+    if (!userSnap.exists) {
+      // Create user document with basic structure
+      await userRef.set({
+        email: email,
+        premium_surgery1: false,
+        accountType: 'free',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+        // Add default premium fields for all premium content
+        premium_anat: false,
+        premium_biochem: false,
+        premium_physio: false,
+        premium_pharma: false,
+        premium_micro: false,
+        premium_patho: false,
+        premium_psm: false,
+        premium_fmt: false,
+        premium_peds: false,
+        premium_medicine: false,
+        premium_surgery1: false,
+        premium_surgery2: false,
+        premium_obg: false,
+        premium_gynae: false,
+        premium_ent: false,
+        premium_oph: false
+      });
+      console.log("New user document created");
+    } else {
+      // Update last login for existing user
+      await userRef.update({
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+    
+    showMainContent(user);
+  } catch (error) {
+    console.error("Login error:", error);
+    errorDiv.textContent = getErrorMessage(error.code);
+    errorDiv.style.display = 'block';
+    
+    // Reset button
+    submitBtn.textContent = 'Login to MedStudyeasy';
+    submitBtn.disabled = false;
+  }
+});
+
+// Signup functionality
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+  const fullName = document.getElementById('fullName').value;
+  const medicalCollege = document.getElementById('medicalCollege').value;
+  const batch = document.getElementById('batch').value;
+  const currentYear = document.getElementById('currentYear').value;
+  
+  const errorDiv = document.getElementById('signupErrorMessage');
+  const successDiv = document.getElementById('signupSuccessMessage');
+  const submitBtn = document.getElementById('signupSubmitBtn');
+
+  // Clear previous messages
+  errorDiv.style.display = 'none';
+  successDiv.style.display = 'none';
+  
+  // Validate form
+  if (!email || !password || !fullName || !medicalCollege || !batch || !currentYear) {
+    errorDiv.textContent = 'Please fill in all required fields.';
+    errorDiv.style.display = 'block';
+    return;
+  }
+
+  if (password.length < 6) {
+    errorDiv.textContent = 'Password must be at least 6 characters long.';
+    errorDiv.style.display = 'block';
+    return;
+  }
+
+  // Show loading state
+  submitBtn.textContent = 'Creating Account...';
+  submitBtn.disabled = true;
+
+  try {
+    console.log("Attempting to create account for:", email);
+    
+    // 1. Create authentication account
+    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    const user = userCredential.user;
+    console.log("Auth account created:", user.uid);
+
+    // 2. Store additional user data in Firestore with all premium fields
+    await db.collection('users').doc(user.uid).set({
+      email: email,
+      fullName: fullName,
+      medicalCollege: medicalCollege,
+      batch: batch,
+      currentYear: currentYear,
+      accountType: 'free',
+      // Initialize all premium fields as false
+      premium_anat: false,
+      premium_biochem: false,
+      premium_physio: false,
+      premium_pharma: false,
+      premium_micro: false,
+      premium_patho: false,
+      premium_psm: false,
+      premium_fmt: false,
+      premium_peds: false,
+      premium_medicine: false,
+      premium_surgery1: false,
+      premium_surgery2: false,
+      premium_obg: false,
+      premium_gynae: false,
+      premium_ent: false,
+      premium_oph: false,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+      profileCompleted: true
+    });
+    
+    console.log("User data saved to Firestore");
+
+    // 3. Show success message
+    successDiv.textContent = 'Account created successfully! You are now logged in.';
+    successDiv.style.display = 'block';
+
+    // 4. Show main content after a short delay
+    setTimeout(() => {
+      showMainContent(user);
+      hideSignupModal();
+    }, 1500);
+
+  } catch (error) {
+    console.error("Signup error:", error);
+    let errorMessage = getErrorMessage(error.code);
+    
+    // More specific error handling
+    if (error.code === 'auth/email-already-in-use') {
+      errorMessage = 'This email is already registered. Please login instead.';
+    } else if (error.code === 'auth/weak-password') {
+      errorMessage = 'Password is too weak. Please use at least 6 characters.';
+    } else if (error.code === 'auth/invalid-email') {
+      errorMessage = 'Invalid email address. Please check your email.';
+    }
+    
+    errorDiv.textContent = errorMessage;
+    errorDiv.style.display = 'block';
+    
+    // Reset button
+    submitBtn.textContent = 'Create Medical Student Account';
+    submitBtn.disabled = false;
+  }
+});
+
+// Enhanced error message helper
+function getErrorMessage(errorCode) {
+  const errorMessages = {
+    'auth/invalid-email': 'Invalid email address format.',
+    'auth/user-disabled': 'This account has been disabled.',
+    'auth/user-not-found': 'No account found with this email.',
+    'auth/wrong-password': 'Incorrect password.',
+    'auth/too-many-requests': 'Too many failed attempts. Please try again later.',
+    'auth/email-already-in-use': 'This email is already registered.',
+    'auth/weak-password': 'Password should be at least 6 characters long.',
+    'auth/operation-not-allowed': 'Email/password accounts are not enabled.',
+    'auth/network-request-failed': 'Network error. Please check your connection.',
+    'firestore/permission-denied': 'Database permission denied. Please try again.'
+  };
+  return errorMessages[errorCode] || 'An unexpected error occurred. Please try again.';
+}
+
+// Logout function
+function logout() {
+  auth.signOut().then(() => {
+    console.log("User logged out");
+    showLoginModal();
+  }).catch((error) => {
+    console.error('Logout error:', error);
+  });
+}
+
+// Event listeners for modal navigation
+document.getElementById('showSignup').addEventListener('click', (e) => {
+  e.preventDefault();
+  showSignupModal();
+});
+
+document.getElementById('showLogin').addEventListener('click', (e) => {
+  e.preventDefault();
+  showLoginModal();
+});
+
+document.getElementById('closeSignup').addEventListener('click', hideSignupModal);
+
+// Close signup modal when clicking outside
+signupModal.addEventListener('click', (e) => {
+  if (e.target === signupModal) {
+    hideSignupModal();
+  }
+});
+
+// Check if user is already logged in on page load
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    console.log("User already logged in:", user.email);
+    // User is signed in, show main content
+    showMainContent(user);
+  } else {
+    console.log("No user logged in, showing login modal");
+    // No user signed in, show login modal
+    showLoginModal();
+  }
+});
+
+// Test Firebase connection
+function testFirebaseConnection() {
+  console.log("Testing Firebase connection...");
+  console.log("Firebase app:", firebase.apps[0] ? "Connected" : "Not connected");
+  console.log("Auth object:", auth ? "Available" : "Not available");
+  console.log("Firestore object:", db ? "Available" : "Not available");
+  console.log("Functions object:", functions ? "Available" : "Not available");
+}
+
+// Run test on load
+window.addEventListener('load', testFirebaseConnection);
+
+// Payment function - WITH FIREBASE FUNCTIONS
+async function payWithRazorpay(id, price) {
+  const user = auth.currentUser;
+  if (!user) {
+    alert("Please login first!");
+    return;
+  }
+
+  // Show loading state
+  const payButton = document.querySelector(`[data-id="${id}"] .pay`);
+  if (payButton) {
+    payButton.innerHTML = 'Processing...';
+    payButton.disabled = true;
+  }
+
+  var options = {
+    key: "rzp_live_Ri5kxrGnD47ZYp",
+    amount: price * 100,
+    currency: "INR",
+    name: "MedStudyEasy",
+    description: "Unlock " + id,
+
+    handler: async function (response) {
+      const paymentId = response.razorpay_payment_id;
+      
+      try {
+        // 1️⃣ Capture payment using Firebase Function
+        console.log("Calling capturePayment function...");
+        const capturePayment = functions.httpsCallable("capturePayment");
+        const result = await capturePayment({
+          paymentId: paymentId,
+          amount: price,
+          subjectId: id,
+          userId: user.uid
+        });
+
+        console.log("Capture result:", result);
+
+        if (!result.data.success) {
+          throw new Error(result.data.error || "Payment capture failed");
+        }
+
+        // 2️⃣ Update Firestore (unlock content)
+        const userRef = db.collection("users").doc(user.uid);
+        await userRef.update({
+          ["premium_" + id]: true,
+          lastPayment: firebase.firestore.FieldValue.serverTimestamp(),
+          lastPaymentId: paymentId
+        });
+
+        alert("Payment successful! Content UNLOCKED ✔");
+        location.reload();
+
+      } catch (err) {
+        console.error("Payment processing error:", err);
+        
+        // Reset button state
+        if (payButton) {
+          payButton.innerHTML = `Unlock ₹${price}`;
+          payButton.disabled = false;
+        }
+        
+        let errorMessage = "Payment processing failed. Please try again.";
+        
+        if (err.message.includes("quota") || err.message.includes("quota exceeded")) {
+          errorMessage = "Payment quota exceeded. Please try again later or contact support.";
+        } else if (err.message.includes("network") || err.message.includes("offline")) {
+          errorMessage = "Network error. Please check your connection and try again.";
+        }
+        
+        alert(errorMessage + " ❌");
+      }
+    },
+
+    prefill: {
+      name: user.displayName || "Medical Student",
+      email: user.email
+    },
+
+    theme: { color: "#8B0000" },
+    
+    modal: {
+      ondismiss: function() {
+        // Reset button if payment modal is closed
+        if (payButton) {
+          payButton.innerHTML = `Unlock ₹${price}`;
+          payButton.disabled = false;
+        }
+        console.log("Payment modal closed");
+      }
+    }
+  };
+
+  try {
+    var rzp = new Razorpay(options);
+    rzp.open();
+  } catch (err) {
+    console.error("Razorpay initialization error:", err);
+    if (payButton) {
+      payButton.innerHTML = `Unlock ₹${price}`;
+      payButton.disabled = false;
+    }
+    alert("Payment system error. Please refresh and try again.");
+  }
+}
+
+/* ======= SCROLL BEHAVIOR ======= */
+let lastScrollTop = 0;
+const header = document.getElementById('main-header');
+const backToTop = document.getElementById('backToTop');
+const scrollThreshold = 100;
+
+// Hide header on scroll down, show on scroll up
+window.addEventListener('scroll', function() {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+  if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+    // Scroll down - hide header
+    header.classList.add('hidden');
+  } else {
+    // Scroll up - show header
+    header.classList.remove('hidden');
+  }
+  
+  lastScrollTop = scrollTop;
+  
+  // Show/hide back to top button
+  if (scrollTop > 300) {
+    backToTop.classList.add('visible');
+  } else {
+    backToTop.classList.remove('visible');
+  }
+});
+
+// Back to top functionality
+backToTop.addEventListener('click', function() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ======= DATA ======= */
+const driveDemoLink = "https://drive.google.com/file/d/1wP4uK_GA6rjg_4maZpmbDNSynhvZnCNo/view?usp=drive_link";
+const DATA = {
+  notes: {
+    1: [
+      { id:"anat", display:"Anatomy", link:driveDemoLink },
+      { id:"biochem", display:"Biochemistry", link:driveDemoLink },
+      { id:"physio", display:"Physiology", link:driveDemoLink }
+    ],
+    2: [
+      { id:"pharma", display:"Pharmacology", link:driveDemoLink },
+      { id:"micro", display:"Microbiology", link:"https://drive.google.com/file/d/1wcWU0VPzkqmitVRMsgM3crHKALuKsHB-/view?usp=share_link" },
+      { id:"patho", display:"Pathology", link:"https://drive.google.com/file/d/1wd3Gktig0iTydsXb8JqlKawitIsy1_Py/view?usp=share_link" }
+    ],
+    3: [
+      { id:"psm", display:"PSM", link:"https://drive.google.com/file/d/1wP4uK_GA6rjg_4maZpmbDNSynhvZnCNo/view?usp=drive_link" },
+      { id:"psm2", display:"PSM2", link:"https://drive.google.com/file/d/1LtwDGeWLF357elmtbA-R_uujHqmM2jC_/view?usp=drive_link" },{ id:"fmt concise reddy", display:"fmt concise reddy", link:"https://drive.google.com/file/d/1wnqsdt0st5wy60zAg7DKZFeAl_vMgu4T/view?usp=share_link" },{ id:"fmt", display:"FMT", link:"https://drive.google.com/file/d/1BhySXMqZxcnLSccq-D0UB9-rGb1YIsN1/view?usp=drive_link" },
+    ],
+    4: [
+      { 
+        id:"surgery1", 
+        display:"Surgery 1", 
+        link:"https://drive.google.com/file/d/1BbNuZcoC0MmDEPL4PBQEl7z79lsR_mhW/view?usp=drivesdk",
+        premium: true,
+        price: 1
+      },
+      { id:"peds", display:"Pediatrics", link:"https://drive.google.com/file/d/1sNoc8qLR5VznT28MIrJ0CvCgW6OunF_v/view?usp=drive_link" },
+      { id:"medicine", display:"Medicine1", link:"https://drive.google.com/file/d/1s9772ypXMudsLSdHn1xhtGcZCFFghYB0/view?usp=drive_link" },
+      { id:"medicine-harrison", display:"Medicine -harrison's 21st edition", link:"https://drive.google.com/file/d/1BH30sXSQPr_jy4rgIKAV9j5i5xVyCJkP/view?usp=drive_link" }, { id:"surgery1", display:"Surgery1", link:"https://drive.google.com/file/d/1BbNuZcoC0MmDEPL4PBQEl7z79lsR_mhW/view?usp=drivesdk" }, { id:"surgery2", display:"Surgery2", link:"https://drive.google.com/file/d/1BhSQsc_E47jEiZhrJ8GNEfUCtmjXa7mZ/view?usp=drivesdk" },
+      { id:"obg", display:"Obs", link:"https://drive.google.com/file/d/1sGDp_vEo6VTip9rCyw61_izsupMznKMo/view?usp=drive_link" },
+      { id:"gynae", display:"Gynae", link:"https://drive.google.com/file/d/1sAAwpNCqfbjB-d5GqImj50qZzUDopvtR/view?usp=drive_link" },{ id:"ent", display:"ENT", link:"https://drive.google.com/file/d/1rvgHxpzvE7v4Ed13UXBTaxn3GXljfccE/view?usp=drivesdk/view?usp=drive_link" },
+      { id:"oph", display:"Ophthalmology", link:"https://drive.google.com/file/d/1vd7wg3HlQanVl8Nk-W90wJOyYRzunu0g/view?usp=drive_link" },
+    ]
+  },
+  practical: {
+    1: [
+      { id:"anat_prac", display:"Anatomy Practical", link:"https://drive.google.com/drive/folders/10Ft29EU_bS_gUoan5jdEiDfjohOcFNP2?usp=drive_link" },
+      { id:"biochem_prac", display:"Biochemistry Practical", link:"https://drive.google.com/drive/folders/10O4j5xfVU1wNbAdljILU4CUzqzWW6tQz?usp=drive_link" },
+      { id:"physio_prac", display:"Physiology Practical", link:"https://drive.google.com/drive/folders/10JWKJl7gwTZDxFPGUE7Fcpdj-JCf00pI?usp=drive_link" }
+    ],
+    2: [
+      { id:"pharma_prac", display:"Pharmacology Practical", link:driveDemoLink },
+      { id:"micro_prac", display:"Microbiology Practical", link:"https://drive.google.com/drive/folders/10fNwd3G_blev6icSZeKKvC7enYwdwPXz?usp=drive_link" },
+      { id:"patho_prac", display:"Pathology Practical", link:"https://drive.google.com/drive/folders/10hJIDAfzKqhP4Hf7LM8QHBtgVbJCJt-E?usp=drive_link" }
+    ],
+    3: [
+      { id:"psm_prac", display:"PSM Practical", link:"https://drive.google.com/drive/folders/1DrqEirK-uOLcWtV3Kna5YdAELSgcWLuC?usp=drive_link" },
+      { id:"fmt_prac", display:"FMT Practical", link:"https://drive.google.com/drive/folders/1Dlm2Tlywv6CcmGTx6mrjlDQJOtJFKjWh?usp=drive_link" }
+    ],
+    4: [
+      { id:"peds_prac", display:"Pediatrics Practical", link:"https://drive.google.com/drive/folders/13LKnFL_EncIjyOIjYhnr2q-h65JV33Up?usp=drive_link" },
+      { id:"medicine_prac", display:"Medicine Practical", link:"https://drive.google.com/drive/folders/13HSI1DL7sQdXCor7D5M0cOW-eWeUNgjB?usp=drive_link" },
+      { id:"surgery_prac", display:"Surgery Practical", link:"https://drive.google.com/drive/folders/13I_AjVxJ9c2P9PbSdPbxV1oYNWxsdL_0?usp=drive_link" },
+      { id:"obg_prac", display:"Obs & Gynae Practical", link:"https://drive.google.com/drive/folders/13Feu58W-8KuLJJRyPYI7K7WzsH1dNcPv?usp=drive_link" },
+      { id:"ent_prac", display:"ENT Practical", link:"https://drive.google.com/drive/folders/1Dkk8_8yonncVdLsLgYWukIaUDlEdrD4U?usp=drive_link" },
+      { id:"oph_prac", display:"Ophthalmology Practical", link:"https://drive.google.com/drive/folders/1Dl4r6K9Z7voIWXTzkJpHWomKRighy0vy?usp=drive_link" }
+    ]
+  },
+  books: {
+    1: [
+      { id:"anat_book", display:"Gray's Anatomy", link:"https://drive.google.com/file/d/1LYgXww1IEzf77uru1z7GJ5bX4wNu-xKC/view?usp=drive_link" },
+      { id:"biochem_book", display:"Harper's Biochemistry", link:"https://drive.google.com/file/d/1VlH5lNZjKLJSFadunkIOTulC3_EG8rOW/view?usp=drive_link" },
+      { id:"physio_book", display:"Guyton & Hall Physiology", link:"https://drive.google.com/file/d/17cDKC2198ihrikvmXMYlzs40mC26bh2f/view?usp=drive_link" }
+    ],
+    2: [
+      { id:"pharma_book", display:"Katzung Pharmacology", link:"https://drive.google.com/file/d/1DAMdmo7CSlMEubdd7ii0BKRzEAHwIMQC/view?usp=drive_link" },
+      { id:"micro_book", display:"Ananthanarayan Microbiology", link:driveDemoLink },
+      { id:"patho_book", display:"Robbins Pathology", link:"https://drive.google.com/file/d/1Q3zpDAy124w-Wm6V-zdkWQ0hYYnpVHGG/view?usp=drive_link" }
+    ],
+    3: [
+      { id:"psm_book", display:"Park's PSM", link:"https://drive.google.com/file/d/1CcaVf_8Vwzej8QjHY0-8GaXzIlO48A96/view?usp=drive_link" },
+      { id:"fmt_book", display:"Reddy's FMT", link:"https://drive.google.com/file/d/1wnqsdt0st5wy60zAg7DKZFeAl_vMgu4T/view?usp=drive_link" }
+    ],
+    4: [
+      { id:"peds_book", display:"Ghai Essential Pediatrics", link:"https://drive.google.com/file/d/1h-T62BaUuZdpA5-Cy2VM0_Ug0fICyPug/view?usp=drive_link" },
+      { id:"medicine_book", display:"Harrison's Medicine", link:"https://drive.google.com/file/d/1BH30sXSQPr_jy4rgIKAV9j5i5xVyCJkP/view?usp=drive_link" },
+      { id:"surgery_book", display:"Bailey & Love Surgery", link:"https://drive.google.com/file/d/1I6gYk2LUpLVqTR_eXUHr6pJQjzRZ2DZZ/view?usp=drive_link" },
+      { id:"obg_book", display:"DC Datta", link:"https://drive.google.com/file/d/19eQWvG3147apXENYmFqy45MhA6IPAmMm/view?usp=drive_link" },
+      { id:"ent_book", display:"Dhingra ENT", link:"https://drive.google.com/file/d/1l1Lj2npAWiAuEgLHzLzWOdJnXCRpuco2/view?usp=drive_link" },
+      { id:"oph_book", display:"A K Khurana ", link:"https://drive.google.com/file/d/1sBpMLdXWWN4ONvrDB9FidHX9B16-4vOH/view?usp=drive_link" }
+    ]
+  },
+  pyq: {
+    1: [
+      { id:"anat_pyq", display:"Anatomy", papers:{
+        "Paper 1": {
+          2022: { summer:"Anat1sun22.pdf", winter:"Anat1win22.pdf?raw=true" },
+          2023: { summer:"LINK_HERE", winter:"Anat1win23.pdf.pdf" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        },
+        "Paper 2": {
+          2022: { summer:"Anat2sum22.pdf", winter:"LINK_HERE" },
+          2023: { summer:"Anat2sum23.pdf", winter:"Anat2win23.pdf" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        }
+      }},
+      { id:"biochem_pyq", display:"Biochemistry", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        }
+      }},
+      { id:"physio_pyq", display:"Physiology", papers:{
+        "Paper 1": {
+          2022: { summer:"Physio1sum22.pdf", winter:"Physio1win22.pdf" },
+          2023: { summer:"Physio1sum23.pdf", winter:"Physio1win23.pdf" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"Physio2win22.pdf" },
+          2023: { summer:"LINK_HERE", winter:"Physio2win23.pdf" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        }
+      }}
+    ],
+    2: [
+      { id:"pharma_pyq", display:"Pharmacology", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        }
+      }},
+      { id:"micro_pyq", display:"Microbiology", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        }
+      }},
+      { id:"patho_pyq", display:"Pathology", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        }
+      }}
+    ],
+    3: [
+      { id:"psm_pyq", display:"PSM", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"MUHS_PSM_PYQ's.pdf" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        }
+      }},
+      { id:"fmt_pyq", display:"FMT", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"MUHS_FMT_PYQ's.pdf" },
+          2024: { summer:"LINK_HERE", winter:"https://drive.google.com/file/d/1ws2QOWEANKWJupZaCBFFs71Af_Xo5L9Q/view?usp=share_link" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        }
+      }}
+    ],
+    4: [
+      { id:"peds_pyq", display:"Pediatrics", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"paedssum23.pdf", winter:"paedswin23.jpg" },
+          2025: { summer:"image.jpeg", winter:"peds_win2025.jpg" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        }
+      }},
+      { id:"medicine_pyq", display:"Medicine", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"med1winter2022.jpg" },
+          2023: { summer:"summer med1 2023.jpg", winter:"Winter2023.pdf" },
+          2025: { summer:"summer2024med1.jpg", winter:"med1win2025.jpg" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2025: { summer:"Med2sum24.pdf", winter:"med2win2025.jpg" }
+        }
+      }},
+      { id:"surgery_pyq", display:"Surgery", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"sur1 summer 23.jpg", winter:"win 2023sur1.jpg" },
+          2025: { summer:"LINK_HERE", winter:"sur1win2025.jpg" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"Sur2win22.pdf" },
+          2023: { summer:"sur2sum23.pdf", winter:"sur2win23.jpg" },
+          2025: { summer:"sur2sum24.pdf", winter:"sur2win25.jpg" }
+        }
+      }},
+      { id:"obg_pyq", display:"Obs & Gynae", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"obgy1sum23.pdf", winter:"obgy1win23.jpg" },
+          2025: { summer:"Obs1sumeer2024.jpg", winter:"obgy1win2025.jpeg" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"obgy2sum23.pdf", winter:"obgy2win23.jpg" },
+          2025: { summer:"LINK_HERE", winter:"obgy2win2025.jpeg" }
+        }
+      }},
+      { id:"ent_pyq", display:"ENT", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"entwin22.pdf" },
+          2023: { summer:"entsum23.pdf", winter:"entwin23.pdf" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        }
+      }},
+      { id:"oph_pyq", display:"Ophthalmology", papers:{
+        "Paper 1": {
+          2022: { summer:"LINK_HERE", winter:"opthalmwin22.pdf" },
+          2023: { summer:"opthalmsum23.pdf", winter:"opthalmwin23.pdf" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        },
+        "Paper 2": {
+          2022: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2023: { summer:"LINK_HERE", winter:"LINK_HERE" },
+          2024: { summer:"LINK_HERE", winter:"LINK_HERE" }
+        }
+      }}
+    ]
+  }
+};
+
+const state = { tab: "notes", year: "1", search: "" };
+
+/* ======= RENDER ======= */
+const grid = document.getElementById("cardsGrid");
+const countEl = document.getElementById("count");
+
+function getSubjects(){
+  const list = DATA[state.tab][state.year] || [];
+  const term = state.search.trim().toLowerCase();
+  return list.filter(s => s.display.toLowerCase().includes(term));
+}
+
+// Function to check if user has premium access
+async function checkPremiumStatus(subjectId) {
+  const user = auth.currentUser;
+  if (!user) return false;
+  
+  try {
+    const userRef = db.collection('users').doc(user.uid);
+    const userDoc = await userRef.get();
+    
+    if (userDoc.exists) {
+      const userData = userDoc.data();
+      return userData[`premium_${subjectId}`] || false;
+    }
+    return false;
+  } catch (error) {
+    console.error("Error checking premium status:", error);
+    return false;
+  }
+}
+
+// Update the render function to check premium status
+async function render(){
+  const list = getSubjects();
+  grid.innerHTML = "";
+
+  const card = document.createElement("div");
+  card.className = "card";
+  const yearNames = {1:"1st Year",2:"2nd Year",3:"3rd Year",4:"4th Year"};
+  const tabNames = {
+    "notes": "Handwritten Notes",
+    "practical": "Practical Notes", 
+    "books": "MBBS Books",
+    "pyq": "Previous Year Questions"
+  };
+  card.innerHTML = `<h3><i class="fa-solid fa-graduation-cap"></i> ${yearNames[state.year]} – ${tabNames[state.tab]}</h3>
+                    <div class="sub-list"></div>`;
+  const subList = card.querySelector(".sub-list");
+
+  for (const sub of list) {
+    const row = document.createElement("div");
+    row.className = "sub";
+    row.dataset.id = sub.id;
+    
+    // Check if user already has premium access
+    const hasPremium = sub.premium ? await checkPremiumStatus(sub.id) : true;
+    
+    row.innerHTML = `
+      <div class="left">
+        <span class="tag">Y${state.year}</span>
+        ${(state.tab==="notes" || state.tab==="practical" || state.tab==="books") && sub.link && hasPremium ? 
+          `<a href="${sub.link}" target="_blank" title="Open Drive link" style="margin-right:6px;">
+            <i class="fa-brands fa-google-drive" style="color:#4285F4"></i>
+          </a>` : ""}
+        <strong>${sub.display}</strong>
+        ${hasPremium && sub.premium ? '<span style="color: green; font-size: 10px; margin-left: 5px;">✓ UNLOCKED</span>' : ''}
+      </div>
+      <div class="acts">
+${sub.premium && !hasPremium ? 
+  `<button class="icon-btn pay" data-act="pay" data-id="${sub.id}" data-price="${sub.price}">
+      Unlock ₹${sub.price}
+   </button>` 
+:
+  `<button class="icon-btn view" title="Preview" data-act="view">
+      <i class="fa-regular fa-eye"></i>
+   </button>`
+}
+</div>
+    `;
+    subList.appendChild(row);
+  }
+
+  if(list.length === 0){
+    subList.innerHTML = `<p class="muted">No subjects found ❗</p>`;
+  }
+
+  grid.appendChild(card);
+  countEl.textContent = list.length;
+}
+
+/* ======= INTERACTION ======= */
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    state.tab = btn.dataset.tab;
+    render(); // This will now call the async render
+  });
+});
+
+document.querySelectorAll(".pill").forEach(p=>{
+  p.addEventListener("click", ()=>{
+    document.querySelectorAll(".pill").forEach(x=>x.classList.remove("active"));
+    p.classList.add("active");
+    state.year = p.dataset.year;
+    render(); // This will now call the async render
+  });
+});
+
+const searchBox = document.getElementById("searchBox");
+searchBox.addEventListener("input", (e)=>{ 
+  state.search = e.target.value; 
+  render(); // This will now call the async render
+});
+
+document.getElementById("clearSearch").addEventListener("click", ()=>{ 
+  searchBox.value=""; 
+  state.search=""; 
+  render(); // This will now call the async render
+});
+
+/* ======= CLICK HANDLER ======= */
+grid.addEventListener("click", (e) => {
+  const target = e.target.closest("[data-act]");
+  if (!target) return;
+
+  const row = e.target.closest(".sub");
+  if (!row) return;
+
+  const subjectList = DATA[state.tab][state.year] || [];
+  const subject = subjectList.find(s => s.id === row.dataset.id);
+
+  if (!subject) return;
+
+  /* -------- PAYMENT HANDLER -------- */
+  if (target.dataset.act === "pay") {
+    const id = target.dataset.id;
+    const price = target.dataset.price;
+
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Please login first!");
+      return;
+    }
+
+    payWithRazorpay(id, price);
+    return;
+  }
+
+  /* -------- VIEW HANDLER -------- */
+  if (target.dataset.act === "view" && subject) {
+    if ((state.tab === "notes" || state.tab === "practical" || state.tab === "books") && subject.link) {
+      openModal(subject.display, `
+        <p>
+          <a href="${subject.link}" target="_blank" style="font-weight:bold;color:#2a5c8f;">
+            View/Download Resource
+          </a>
+        </p>
+      `);
+      return;
+    }
+    
+    // PYQ modal rendering
+    if(state.tab === "pyq" && subject.papers){
+      let html = `<div style="margin-top:6px;">`;
+      for(const paperName of Object.keys(subject.papers)){
+        html += `<div class="pyq-paper"><strong>${paperName}</strong>`;
+        const yearsObj = subject.papers[paperName];
+        for(const yr of Object.keys(yearsObj)){
+          const sets = yearsObj[yr];
+          html += `<div class="pyq-year"><span style="min-width:60px;font-weight:700">${yr}</span>`;
+          // Summer
+          if(sets && sets.summer && sets.summer !== "LINK_HERE"){
+            html += `<a class="btn-link btn-summer" href="${sets.summer}" target="_blank" rel="noopener">Summer</a>`;
+          } else {
+            html += `<span class="btn-disabled">Summer —</span>`;
+          }
+          // Winter
+          if(sets && sets.winter && sets.winter !== "LINK_HERE"){
+            html += `<a class="btn-link btn-winter" href="${sets.winter}" target="_blank" rel="noopener">Winter</a>`;
+          } else {
+            html += `<span class="btn-disabled">Winter —</span>`;
+          }
+          html += `</div>`;
+        }
+        html += `</div>`; // .pyq-paper
+      }
+      html += `</div>`;
+
+      openModal(subject.display + " - PYQs", html);
+      return;
+    }
+
+    // fallback
+    openModal("Preview", `<p class="muted">No data available for <b>${row.dataset.id}</b>.</p>`);
+  }
+});
+
+/* ======= MODAL ======= */
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody  = document.getElementById("modalBody");
+document.getElementById("modalClose").addEventListener("click", ()=> modal.classList.remove("show"));
+modal.addEventListener("click", (e)=> {
+  if(e.target === modal) modal.classList.remove("show"); // click outside dialog closes
+});
+function openModal(title, html){
+  modalTitle.textContent = title;
+  modalBody.innerHTML = html;
+  modal.classList.add('show');
+}
+
+/* ======= INIT ======= */
+(async function init(){
+  await render(); // Make this async too
+  document.getElementById("yr").textContent = new Date().getFullYear();
+})();
+
+// Initialize DOM event listeners after page load
+document.addEventListener('DOMContentLoaded', function() {
+  const loginModal = document.getElementById('loginModal');
+  const signupModal = document.getElementById('signupModal');
+  const showSignupLink = document.getElementById('showSignup');
+  const showLoginLink = document.getElementById('showLogin');
+  const closeSignupButton = document.getElementById('closeSignup');
+
+  // Function to show the Signup modal and hide the Login modal
+  if (showSignupLink) {
+      showSignupLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (loginModal) loginModal.style.display = 'none';
+          if (signupModal) signupModal.classList.add('show');
+      });
+  }
+
+  // Function to show the Login modal and hide the Signup modal
+  if (showLoginLink) {
+      showLoginLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (signupModal) signupModal.classList.remove('show');
+          if (loginModal) loginModal.style.display = 'flex';
+      });
+  }
+
+  // Function to close the Signup modal (goes back to login since it's the main gate)
+  if (closeSignupButton) {
+      closeSignupButton.addEventListener('click', function() {
+          if (signupModal) signupModal.classList.remove('show');
+          if (loginModal) loginModal.style.display = 'flex'; // Optional: show login again
+      });
+  }
+});
+</script>
+
+<!-- Razorpay SDK -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</body>
+</html>
