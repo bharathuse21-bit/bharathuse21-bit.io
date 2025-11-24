@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html <!lang="en">
-<head>
+<html lang="en">
+<head> 
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FKPL3L7HHK"></script>
 <script>
@@ -597,6 +600,12 @@
      crossorigin="anonymous"></script>
 </head>
 <body>
+<script>
+  if (!sessionStorage.getItem("site_refreshed_once")) {
+    sessionStorage.setItem("site_refreshed_once", "true");
+    location.reload();
+  }
+</script>
   <!-- Login Modal - Shows First -->
   <div id="loginModal">
     <div class="login-container">
