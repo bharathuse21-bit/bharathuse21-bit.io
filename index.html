@@ -1871,7 +1871,7 @@ grid.addEventListener("click", (e) => {
 
   /* -------- VIEW HANDLER -------- */
   if (target.dataset.act === "view" && subject) {
-    if ((state.tab === "notes" || state.tab === "practical" || state.tab === "books") && subject.link) {
+    if ((state.tab === "notes" || state.tab === "practical" || state.tab === "books" || state.tab === "bhalani") && subject.link) {
       openModal(subject.display, `
         <p>
           <a href="${subject.link}" target="_blank" style="font-weight:bold;color:#2a5c8f;">
