@@ -605,12 +605,6 @@
      crossorigin="anonymous"></script>
 </head>
 <body>
-<script>
-  if (!sessionStorage.getItem("site_refreshed_once")) {
-    sessionStorage.setItem("site_refreshed_once", "true");
-    location.reload();
-  }
-</script>
   <!-- Login Modal - Shows First -->
   <div id="loginModal">
     <div class="login-container">
@@ -2000,7 +1994,7 @@ async function payWithRazorpay(id, price) {
         const userRef = db.collection("users").doc(user.uid);
         await userRef.update({ ["premium_" + id]: true, lastPayment: firebase.firestore.FieldValue.serverTimestamp(), lastPaymentId: paymentId });
         alert("Payment successful! Unlocked ✔");
-        location.reload();
+        await render();
       } catch (err) {
         console.error(err);
         if (payButton) { payButton.innerHTML = `Unlock ₹${price}`; payButton.disabled = false; }
