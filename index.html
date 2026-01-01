@@ -1780,7 +1780,7 @@ async function render(){
     row.innerHTML = `
       <div class="left">
         <span class="tag">Y${state.year}</span>
-        ${(state.tab==="notes" || state.tab==="practical" || state.tab==="books") && sub.link && hasPremium ? 
+        ${(state.tab==="notes" || state.tab==="practical" || state.tab==="books" || state.tab==="bhalani") && sub.link && hasPremium ? 
           `<a href="${sub.link}" target="_blank" title="Open Drive link" style="margin-right:6px;">
             <i class="fa-brands fa-google-drive" style="color:#4285F4"></i>
           </a>` : ""}
