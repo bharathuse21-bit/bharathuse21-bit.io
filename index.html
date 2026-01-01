@@ -861,6 +861,10 @@
           <button class="tab-btn" data-tab="practical"><i class="fa-solid fa-flask"></i> Practical Notes</button>
           <button class="tab-btn" data-tab="books"><i class="fa-solid fa-book"></i> MBBS Books</button>
           <button class="tab-btn" data-tab="pyq"><i class="fa-solid fa-file-lines"></i> Previous Year Questions</button>
+          <button class="tab-btn" data-tab="bhalani">
+  <i class="fa-solid fa-feather"></i> Bhalani 
+</button>
+
         </div>
 
         <div class="top-row">
@@ -1157,6 +1161,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
         // Add default premium fields for all premium content
         premium_anat: false,
+        premium_bhalani_oph: false,
+
         premium_biochem: false,
         premium_physio: false,
         premium_pharma: false,
@@ -1250,6 +1256,8 @@ await db.collection('users').doc(user.uid).set({
   accountType: 'free',
   // Initialize all premium fields as false
   premium_anat: false,
+  premium_bhalani_oph: false,
+
   premium_biochem: false,
   premium_physio: false,
   premium_pharma: false,
@@ -1469,6 +1477,18 @@ const DATA = {
         price: 49 },
     ]
   },
+  bhalani: {
+  4: [
+    {
+      id: "bhalani_oph",
+      display: "Ophthalmology (Bhalani)",
+      link: "https://drive.google.com/file/d/PASTE_BHALANI_OPH_LINK_HERE/view",
+      premium: true,
+      price: 29
+    }
+  ]
+}
+
   practical: {
     1: [
       { id:"anat_prac", display:"Anatomy Practical", link:"https://drive.google.com/drive/folders/10Ft29EU_bS_gUoan5jdEiDfjohOcFNP2?usp=drive_link" },
@@ -1493,6 +1513,7 @@ const DATA = {
       { id:"oph_prac", display:"Ophthalmology Practical", link:"https://drive.google.com/drive/folders/1Dl4r6K9Z7voIWXTzkJpHWomKRighy0vy?usp=drive_link" }
     ]
   },
+  
   books: {
     1: [
       { id:"anat_book", display:"Gray's Anatomy", link:"https://drive.google.com/file/d/1LYgXww1IEzf77uru1z7GJ5bX4wNu-xKC/view?usp=drive_link" },
@@ -1739,6 +1760,7 @@ async function render(){
   const yearNames = {1:"1st Year",2:"2nd Year",3:"3rd Year",4:"4th Year"};
   const tabNames = {
     "notes": "Handwritten Notes",
+    "bhalani": "Bhalani",
     "practical": "Practical Notes", 
     "books": "MBBS Books",
     "pyq": "Previous Year Questions"
