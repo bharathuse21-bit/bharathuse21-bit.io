@@ -1156,7 +1156,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         // Add default premium fields for all premium content
         premium_anat: false,
         premium_bhalani_oph: false,
-
+        premium_bhalani_ent: false,
         premium_biochem: false,
         premium_physio: false,
         premium_pharma: false,
@@ -1251,7 +1251,7 @@ await db.collection('users').doc(user.uid).set({
   // Initialize all premium fields as false
   premium_anat: false,
   premium_bhalani_oph: false,
-
+  premium_bhalani_ent: false,
   premium_biochem: false,
   premium_physio: false,
   premium_pharma: false,
@@ -1480,6 +1480,13 @@ const DATA = {
       premium: true,
       price: 29
     },
+    {
+      id: "bhalani_ent",
+      display: "ENT (Bhalani 2.0)",
+      link: "https://drive.google.com/file/d/1jGdlaAXP4TtlW1KXPdhVDMFv7EYz4F8_/view?usp=drivesdk",
+      premium: true,
+      price: 1
+    },    
   ]
 },
 
