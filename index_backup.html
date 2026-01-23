@@ -1995,9 +1995,6 @@ async function payWithRazorpay(id, price) {
     handler: async function (response) {
       const paymentId = response.razorpay_payment_id;
       try {
-        const capturePayment = functions.httpsCallable("capturePayment");
-        const result = await capturePayment({ paymentId, amount: price * 100, subjectId: id, userId: user.uid });
-        if (!result.data || !result.data.success) throw new Error(result.data?.error || "Capture failed");
         const userRef = db.collection("users").doc(user.uid);
         await userRef.update({ ["premium_" + id]: true, lastPayment: firebase.firestore.FieldValue.serverTimestamp(), lastPaymentId: paymentId });
         alert("Payment successful! Unlocked ✔");
