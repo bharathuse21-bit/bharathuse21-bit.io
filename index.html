@@ -1157,6 +1157,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         premium_anat: false,
         premium_bhalani_oph: false,
         premium_bhalani_ent: false,
+        premium_bhalani_ped: false,
         premium_biochem: false,
         premium_physio: false,
         premium_pharma: false,
@@ -1252,6 +1253,7 @@ await db.collection('users').doc(user.uid).set({
   premium_anat: false,
   premium_bhalani_oph: false,
   premium_bhalani_ent: false,
+  premium_bhalani_ped: false,
   premium_biochem: false,
   premium_physio: false,
   premium_pharma: false,
@@ -1486,7 +1488,14 @@ const DATA = {
       link: "https://drive.google.com/file/d/1jGdlaAXP4TtlW1KXPdhVDMFv7EYz4F8_/view?usp=drivesdk",
       premium: true,
       price: 29
-    },    
+    },
+    {
+  id: "bhalani_ped",
+  display: "Pediatrics (Bhalani 2.0)",
+  link: "https://drive.google.com/file/d/12ntbxTynjORz6CBvyLhJ6l6YoeMbfU1O/view?usp=drivesdk",
+  premium: true,
+  price: 29
+},
   ]
 },
 
