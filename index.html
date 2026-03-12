@@ -723,6 +723,41 @@
       <div class="wrap">
         <h1>MBBS Medical Notes & Previous Year Questions</h1>
         <p>Comprehensive study resources for medical students</p>
+        <section class="content-section" id="heatmap">
+<h2>🔥 MUHS Exam Probability Heatmap</h2>
+
+<div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+
+<div style="flex:1">
+<h3>Final Year MBBS Important Topics</h3>
+
+<p>
+Based on analysis of MUHS papers from 2021-2024.  
+Includes high probability LAQs & SAQs for:
+</p>
+
+<ul>
+<li>Medicine</li>
+<li>Surgery</li>
+<li>Obstetrics & Gynaecology</li>
+<li>Pediatrics</li>
+<li>ENT</li>
+<li>Ophthalmology</li>
+</ul>
+
+<p style="font-weight:bold;color:#8B0000">
+Perfect for last-minute revision.
+</p>
+
+<button onclick="payWithRazorpay('heatmap_pdf',49)"
+style="background:#8B0000;color:white;border:none;padding:12px 20px;border-radius:6px;font-size:16px;cursor:pointer">
+Buy PDF ₹49
+</button>
+
+</div>
+
+</div>
+</section>
         
         <!-- Dr. Strange Logo -->
         <div class="dr-strange-logo">
@@ -1158,6 +1193,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         premium_bhalani_oph: false,
         premium_bhalani_ent: false,
         premium_bhalani_ped: false,
+       premium_heatmap_pdf:false 
         premium_biochem: false,
         premium_physio: false,
         premium_pharma: false,
@@ -1254,6 +1290,7 @@ await db.collection('users').doc(user.uid).set({
   premium_bhalani_oph: false,
   premium_bhalani_ent: false,
   premium_bhalani_ped: false,
+  premium_heatmap_pdf:false
   premium_biochem: false,
   premium_physio: false,
   premium_pharma: false,
@@ -1496,9 +1533,16 @@ const DATA = {
   premium: true,
   price: 29
 },
-  ]
-},
+  {
+      id: "heatmap_pdf",
+      display: "MUHS Probability Heatmap",
+      link: "YOUR_GOOGLE_DRIVE_LINK",
+      premium: true,
+      price: 49
+    }
 
+]
+},
   practical: {
     1: [
       { id:"anat_prac", display:"Anatomy Practical", link:"https://drive.google.com/drive/folders/10Ft29EU_bS_gUoan5jdEiDfjohOcFNP2?usp=drive_link" },
