@@ -723,7 +723,22 @@
       <div class="wrap">
         <h1>MBBS Medical Notes & Previous Year Questions</h1>
         <p>Comprehensive study resources for medical students</p>
-        <section class="content-section" id="heatmap">
+        
+        <!-- Dr. Strange Logo -->
+        <div class="dr-strange-logo">
+          <div class="logo-container">
+            <div class="logo-outer-ring"></div>
+            <div class="logo-inner-ring"></div>
+            <div class="logo-symbol">DS</div>
+          </div>
+        </div>
+        
+        <a href="ai.html" class="dr-strange-btn">
+          🔮 Consult Dr. Strange
+        </a>
+      </div>
+    </section>
+    <section class="content-section" id="heatmap">
 <h2>🔥 MUHS Exam Probability Heatmap</h2>
 
 <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
@@ -758,21 +773,6 @@ Buy PDF ₹49
 
 </div>
 </section>
-        
-        <!-- Dr. Strange Logo -->
-        <div class="dr-strange-logo">
-          <div class="logo-container">
-            <div class="logo-outer-ring"></div>
-            <div class="logo-inner-ring"></div>
-            <div class="logo-symbol">DS</div>
-          </div>
-        </div>
-        
-        <a href="ai.html" class="dr-strange-btn">
-          🔮 Consult Dr. Strange
-        </a>
-      </div>
-    </section>
 
     <div class="wrap">
       <!-- Quick Navigation -->
@@ -1193,7 +1193,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         premium_bhalani_oph: false,
         premium_bhalani_ent: false,
         premium_bhalani_ped: false,
-       premium_heatmap_pdf:false 
+       premium_heatmap_pdf:false, 
         premium_biochem: false,
         premium_physio: false,
         premium_pharma: false,
@@ -1290,7 +1290,7 @@ await db.collection('users').doc(user.uid).set({
   premium_bhalani_oph: false,
   premium_bhalani_ent: false,
   premium_bhalani_ped: false,
-  premium_heatmap_pdf:false
+  premium_heatmap_pdf:false,
   premium_biochem: false,
   premium_physio: false,
   premium_pharma: false,
