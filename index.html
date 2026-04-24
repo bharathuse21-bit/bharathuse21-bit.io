@@ -1191,6 +1191,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         // Add default premium fields for all premium content
         premium_anat: false,
         premium_bhalani_oph: false,
+        premium_medicine_respiratory_prac: false,
         premium_bhalani_ent: false,
         premium_bhalani_ped: false,
        premium_heatmap_pdf:false, 
@@ -1288,6 +1289,7 @@ await db.collection('users').doc(user.uid).set({
   // Initialize all premium fields as false
   premium_anat: false,
   premium_bhalani_oph: false,
+  premium_medicine_respiratory_prac: false,
   premium_bhalani_ent: false,
   premium_bhalani_ped: false,
   premium_heatmap_pdf:false,
@@ -1560,7 +1562,13 @@ const DATA = {
     ],
     4: [
       { id:"peds_prac", display:"Pediatrics Practical", link:"https://drive.google.com/drive/folders/13LKnFL_EncIjyOIjYhnr2q-h65JV33Up?usp=drive_link" },
-      { id:"medicine_prac", display:"Medicine Practical", link:"https://drive.google.com/drive/folders/13HSI1DL7sQdXCor7D5M0cOW-eWeUNgjB?usp=drive_link" },
+       {
+  id: "medicine_respiratory_prac",
+  display: "Medicine – Respiratory System Practical",
+  link: "https://drive.google.com/file/d/1hRa_z4n5-72fMZB7eNo_QawVjTHeVLaZ/view?usp=drivesdk",
+  premium: true,
+  price: 49
+},
       { id:"surgery_prac", display:"Surgery Practical", link:"https://drive.google.com/drive/folders/13I_AjVxJ9c2P9PbSdPbxV1oYNWxsdL_0?usp=drive_link" },
       { id:"obg_prac", display:"Obs & Gynae Practical", link:"https://drive.google.com/drive/folders/13Feu58W-8KuLJJRyPYI7K7WzsH1dNcPv?usp=drive_link" },
       { id:"ent_prac", display:"ENT Practical", link:"https://drive.google.com/drive/folders/1Dkk8_8yonncVdLsLgYWukIaUDlEdrD4U?usp=drive_link" },
